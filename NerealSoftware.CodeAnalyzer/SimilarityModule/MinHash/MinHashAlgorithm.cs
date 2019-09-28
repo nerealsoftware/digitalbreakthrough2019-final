@@ -40,9 +40,17 @@ namespace SimilarityModule.MinHash
 
         public IEnumerable<uint[]> CalculateBlocks(int[] data)
         {
-            for (var i = 0; i <= data.Length - _blockSize; i += _step)
+            var i = 0;
+            while (i < data.Length)
             {
-                yield return Calculate(data, i, Math.Min(_blockSize, data.Length - i));
+                var length = Math.Min(_blockSize, data.Length - i);
+                yield return Calculate(data, i, length);
+                if (i + length == data.Length)
+                {
+                    break;
+                }
+
+                i += _step;
             }
         }
 

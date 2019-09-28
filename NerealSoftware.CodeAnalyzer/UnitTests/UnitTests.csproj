@@ -89,7 +89,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComplexTests.cs" />
     <Compile Include="CsParserTests.cs" />
+    <None Include="Files\File2.cs" />
+    <None Include="Files\File1.cs" />
     <Compile Include="MinHashAlgorithmTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper.cs" />
@@ -102,6 +105,10 @@
     <ProjectReference Include="..\CodeAnalyzer.Interface\CodeAnalyzer.Interface.csproj">
       <Project>{B150B8AC-09C9-430C-8295-3476304E36B5}</Project>
       <Name>CodeAnalyzer.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeAnalyzer.Sources\CodeAnalyzer.Sources.csproj">
+      <Project>{CD431766-9DE0-40C4-9FC7-0653C54446E0}</Project>
+      <Name>CodeAnalyzer.Sources</Name>
     </ProjectReference>
     <ProjectReference Include="..\CodeParser\CodeParser.csproj">
       <Project>{fe80791d-0e16-4067-94a4-1d283a8c286b}</Project>
@@ -123,6 +130,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Res\AhoKorasikAlgorithm.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
