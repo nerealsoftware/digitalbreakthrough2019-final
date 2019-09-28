@@ -15,7 +15,7 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace CodeParser
 {
-    public class CsParser
+    public class CsParser : IParser
     {
         public class Rewriter : CSharpSyntaxRewriter, IRewriter
         {
@@ -119,7 +119,12 @@ namespace CodeParser
             return tokens;
         }
 
-        public List<IToken> GetTokens(IFileSource fileSource, OffsetsStore offsetsStore = null)
+        public List<IToken> GetTokens(IFileSource fileSource)
+        {
+            return GetTokens(fileSource, new OffsetsStore());
+        }
+
+        public List<IToken> GetTokens(IFileSource fileSource, OffsetsStore offsetsStore)
         {
             offsetsStore = offsetsStore ?? new OffsetsStore();
             return IntGetTokens(fileSource.GetData(), fileSource, offsetsStore);

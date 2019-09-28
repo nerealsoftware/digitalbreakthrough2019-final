@@ -43,10 +43,12 @@
   <ItemGroup>
     <Compile Include="ICommonResults.cs" />
     <Compile Include="IDiffSegment.cs" />
+    <Compile Include="IParser.cs" />
     <Compile Include="IProcessingModule.cs" />
     <Compile Include="ISimilarBlock.cs" />
     <Compile Include="ISource.cs" />
     <Compile Include="IToken.cs" />
+    <Compile Include="ProcessingModuleEventData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

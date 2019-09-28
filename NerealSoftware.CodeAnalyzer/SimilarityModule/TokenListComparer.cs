@@ -21,33 +21,46 @@ namespace SimilarityModule
         {
             var data1 = tokens1.Select(t => t.Code).ToArray();
             var data2 = tokens2.Select(t => t.Code).ToArray();
-            var blocks1 = _algorithm.CalculateBlocks(data1).ToList();
-            var blocks2 = _algorithm.CalculateBlocks(data2).ToList();
-            for (var i = blocks1.Count - 1; i >= 0; i--)
+            var file1 = new FileData(null)
             {
-                var lines = CheckDiagonal(blocks1, blocks2, i, 0, Math.Min(blocks1.Count - i, blocks2.Count));
+                Tokens = tokens1,
+                Blocks = _algorithm.CalculateBlocks(data1).ToList()
+            };
+            var file2 = new FileData(null)
+            {
+                Tokens = tokens2,
+                Blocks = _algorithm.CalculateBlocks(data2).ToList()
+            };
+            return GetSimilarBlocks(file1, file2);
+        }
+
+        internal IEnumerable<ISimilarBlock> GetSimilarBlocks(FileData file1, FileData file2)
+        {
+            for (var i = file1.Blocks.Count - 1; i >= 0; i--)
+            {
+                var lines = CheckDiagonal(file1.Blocks, file2.Blocks, i, 0, Math.Min(file1.Blocks.Count - i, file2.Blocks.Count));
                 foreach (var line in lines)
                 {
-                    yield return new SimilarBlock(tokens1[_algorithm.GetBlockStartIndex(line.Item1)],
-                        tokens1[
-                            Math.Min(_algorithm.GetBlockEndIndex(line.Item1 + line.Item3 - 1), tokens1.Count - 1)],
-                        tokens2[_algorithm.GetBlockStartIndex(line.Item2)],
-                        tokens2[
-                            Math.Min(_algorithm.GetBlockEndIndex(line.Item2 + line.Item3 - 1), tokens2.Count - 1)]);
-
+                    yield return new SimilarBlock(file1.Tokens[_algorithm.GetBlockStartIndex(line.Item1)],
+                        file1.Tokens[
+                            Math.Min(_algorithm.GetBlockEndIndex(line.Item1 + line.Item3 - 1), file1.Tokens.Count - 1)],
+                        file2.Tokens[_algorithm.GetBlockStartIndex(line.Item2)],
+                        file2.Tokens[
+                            Math.Min(_algorithm.GetBlockEndIndex(line.Item2 + line.Item3 - 1), file2.Tokens.Count - 1)]);
                 }
             }
-            for (var i = 1; i < blocks2.Count; i++)
+
+            for (var i = 1; i < file2.Blocks.Count; i++)
             {
-                var lines = CheckDiagonal(blocks1, blocks2, 0, i, Math.Min(blocks2.Count - i, blocks1.Count));
+                var lines = CheckDiagonal(file1.Blocks, file2.Blocks, 0, i, Math.Min(file2.Blocks.Count - i, file1.Blocks.Count));
                 foreach (var line in lines)
                 {
-                    yield return new SimilarBlock(tokens1[_algorithm.GetBlockStartIndex(line.Item1)],
-                        tokens1[
-                            Math.Min(_algorithm.GetBlockEndIndex(line.Item1 + line.Item3 - 1), tokens1.Count - 1)],
-                        tokens2[_algorithm.GetBlockStartIndex(line.Item2)],
-                        tokens2[
-                            Math.Min(_algorithm.GetBlockEndIndex(line.Item2 + line.Item3 - 1), tokens2.Count - 1)]);
+                    yield return new SimilarBlock(file1.Tokens[_algorithm.GetBlockStartIndex(line.Item1)],
+                        file1.Tokens[
+                            Math.Min(_algorithm.GetBlockEndIndex(line.Item1 + line.Item3 - 1), file1.Tokens.Count - 1)],
+                        file2.Tokens[_algorithm.GetBlockStartIndex(line.Item2)],
+                        file2.Tokens[
+                            Math.Min(_algorithm.GetBlockEndIndex(line.Item2 + line.Item3 - 1), file2.Tokens.Count - 1)]);
                 }
             }
         }
