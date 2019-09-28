@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CodeAnalyzer.Interface;
+using CodeAnalyzer.Utils;
 using SimilarityModule.MinHash;
 
 namespace SimilarityModule
@@ -33,6 +35,7 @@ namespace SimilarityModule
                 fileData.Blocks = _algorithm.CalculateBlocks(data).ToList();
             }
 
+            var results = new List<IProcessingResult>();
             var comparer = new TokenListComparer(_algorithm);
             for (var i = 0; i < processingFiles.Count; i++)
             {
@@ -42,19 +45,87 @@ namespace SimilarityModule
                 fileData.Tokens = _parser.GetTokens(fileData.File);
                 var data = fileData.Tokens.Select(t => t.Code).ToArray();
                 fileData.Blocks = _algorithm.CalculateBlocks(data).ToList();
+                var report = new StringBuilder();
+                var linkedFiles = new List<IFileSource>();
                 for (var j = 0; j < baseFiles.Count; j++)
                 {
                     var baseFile = baseFiles[j];
                     OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, $"Анализ входного файла на дубликаты с {baseFile.File.GetFileName()}", i+1,
                         processingFiles.Count + 1, j, baseFiles.Count));
-                    var similarBlocks = comparer.GetSimilarBlocks(fileData, baseFile);
+                    var similarBlocks = comparer.GetSimilarBlocks(fileData, baseFile).ToList();
+                    if (similarBlocks.Count > 0)
+                    {
+                        linkedFiles.Add(baseFile.File);
+                        var extractor = new FileLineExtractor();
+                        var lcs = new LcsAlgorithm();
+                        foreach (var similarBlock in similarBlocks)
+                        {
+                            report.AppendLine(
+                                $"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
+                            var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
+                                similarBlock.File1End.Position);
+                            var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
+                                similarBlock.File2End.Position);
+                            var diffs = lcs.GetDiff(lines1, lines2);
+                            foreach (var diff in diffs)
+                            {
+                                var symbol = GetDiffOperationSymbol(diff.Operation);
+                                foreach (var item in diff.Items)
+                                {
+                                    report.AppendLine($"{symbol} {item}");
+                                }
+                            }
+
+                            report.AppendLine();
+                        }
+                    }
                 }
+
+                results.Add(new Result(fileData.File, linkedFiles, report.ToString()));
             }
 
-            return null;
+            return new ModuleResults(results);
+        }
+
+        private char GetDiffOperationSymbol(DiffOperation operation)
+        {
+            switch (operation)
+            {
+                case DiffOperation.Copied:
+                    return ' ';
+                case DiffOperation.Added:
+                    return '+';
+                case DiffOperation.Deleted:
+                    return '-';
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(operation), operation, null);
+            }
         }
 
         public event Action<ProcessingModuleEventData> OnProgress;
+
+        private class ModuleResults :ICommonResults
+        {
+            public ModuleResults(IEnumerable<IProcessingResult> results)
+            {
+                Results = results;
+            }
+
+            public IEnumerable<IProcessingResult> Results { get; }
+        }
+
+        private class Result : IProcessingResult {
+            public Result(IFileSource file, IEnumerable<IFileSource> linkedFiles, string report)
+            {
+                File = file;
+                LinkedFiles = linkedFiles;
+                Report = report;
+            }
+
+            public IFileSource File { get; }
+            public IEnumerable<IFileSource> LinkedFiles { get; }
+            public string Report { get; }
+        }
     }
 
     internal class FileData

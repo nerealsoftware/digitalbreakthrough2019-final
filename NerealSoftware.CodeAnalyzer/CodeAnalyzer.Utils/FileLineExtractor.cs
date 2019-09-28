@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using CodeAnalyzer.Interface;
 
-namespace CodeAnalyzer.Sources
+namespace CodeAnalyzer.Utils
 {
     public class FileLineExtractor
     {

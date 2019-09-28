@@ -45,6 +45,7 @@
     <Compile Include="IDiffSegment.cs" />
     <Compile Include="IParser.cs" />
     <Compile Include="IProcessingModule.cs" />
+    <Compile Include="IProcessingResult.cs" />
     <Compile Include="ISimilarBlock.cs" />
     <Compile Include="ISource.cs" />
     <Compile Include="IToken.cs" />
