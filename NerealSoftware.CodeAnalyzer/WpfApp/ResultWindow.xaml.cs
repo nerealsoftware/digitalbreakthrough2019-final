@@ -29,9 +29,11 @@ namespace WpfApp
         {
             int i = 1;
             var list = new List<FileGridItem>();
-            foreach (var fileSource in results.FileSources)
+            foreach (var result in results.Results)
             {
-                list.Add(new FileGridItem(i + 1, $"{fileSource.GetFileName()}", $"{fileSource.ToString()}"));
+                var fileSource = result.File;
+                var fileNames = result.LinkedFiles.Select(x => x.GetFileName());
+                list.Add(new FileGridItem(i, $"{fileSource.GetFileName()}", $"{result.Report}", fileNames.ToList()));
                 i++;
             }
             fileGrid.ItemsSource = list;
@@ -45,14 +47,14 @@ namespace WpfApp
             if ((currentSelectedItem == null) || (currentSelectedItem.Id != file.Id))
             {
                 currentSelectedItem = file;
-                fileDescription.Text = file.Description;
+                fileDescription.Text = string.Join(";\r\n",file.FileNames);
                 BrowserBehavior.SetHtml(fileReportWB, GenerateHtmlForFile(file));
             }
         }
 
         private static string GenerateHtmlForFile(FileGridItem file)
         {
-            return $"<html><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><body><p>{file.Description}</p></body></html>";
+            return $"<html><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><body><pre>{file.Report}</pre></body></html>";
         }
     }
 }

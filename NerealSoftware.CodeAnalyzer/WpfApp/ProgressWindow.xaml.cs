@@ -54,10 +54,10 @@ namespace WpfApp
             {
                 SetProgressBarValue(ProgressBarCode.File, eventData.CurrentSecondProgress);
             }
-            if (!string.IsNullOrEmpty((eventData.Message)))
+            /*if (!string.IsNullOrEmpty((eventData.Message)))
             {
                 AddTextBoxMessage(eventData.Message);
-            }
+            }*/
         }
 
 
