@@ -38,7 +38,7 @@ namespace WpfApp
             var i = 0;
             while (i < 10)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 i++;
                 FileProgressBar.Dispatcher.Invoke(() => FileProgressBar.Value = i, DispatcherPriority.Background);
                 AllProgressBar.Dispatcher.Invoke(() => AllProgressBar.Value = i, DispatcherPriority.Background);

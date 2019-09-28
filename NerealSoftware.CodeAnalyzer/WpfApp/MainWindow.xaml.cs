@@ -41,7 +41,24 @@ namespace WpfApp
             ProgressWindow progressWindow = new ProgressWindow();
             this.Hide();
             progressWindow.ShowDialog();
-            this.Close();
+            this.Show();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var FilePath = openFileDialog.FileName;
+                ReestrPath.Text = FilePath;
+            }
+        }
+
+        private void ReestrCheck(object sender, RoutedEventArgs e)
+        {
+            var enable = CheckBoxReestr.IsChecked.GetValueOrDefault();
+            reestrPathBtn.IsEnabled = enable;
+            ReestrPath.IsEnabled = enable;
         }
     }
 }
