@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsParserTests.cs" />
+    <Compile Include="MinHashAlgorithmTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
@@ -109,6 +110,10 @@
     <ProjectReference Include="..\DependencesModule\DependencesModule.csproj">
       <Project>{76e70171-69bf-44fd-b41e-cf5c04122b66}</Project>
       <Name>DependencesModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimilarityModule\SimilarityModule.csproj">
+      <Project>{7B5516AC-C818-4842-9DF6-1683E0AC4FBE}</Project>
+      <Name>SimilarityModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

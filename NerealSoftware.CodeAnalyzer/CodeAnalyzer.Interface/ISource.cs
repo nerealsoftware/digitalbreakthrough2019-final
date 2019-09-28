@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeAnalyzer.Interface
 {
-    interface ISource
+    public interface ISource
     {
-        IFileSource GetNextFile();
+        IEnumerable<IFileSource> GetFiles();
     }
 
     public interface IFileSource
