@@ -23,8 +23,10 @@ namespace UnitTests
             var file2 = files[1];
             
             var parser = new CsParser();
-            var tokens1 = parser.GetTokens(file1);
-            var tokens2 = parser.GetTokens(file2);
+            var offsetStore1 = new OffsetsStore();
+            var tokens1 = parser.GetTokens(file1, offsetStore1);
+            var offsetStore2 = new OffsetsStore();
+            var tokens2 = parser.GetTokens(file2, offsetStore2);
 
             Console.WriteLine($"{file1.GetFileName()} - {tokens1.Count} tokens");
             Console.WriteLine($"{file2.GetFileName()} - {tokens2.Count} tokens");
