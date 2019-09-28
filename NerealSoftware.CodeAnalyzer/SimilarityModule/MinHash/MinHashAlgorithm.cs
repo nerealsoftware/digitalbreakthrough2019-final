@@ -38,11 +38,22 @@ namespace SimilarityModule.MinHash
             _groupHashFunction = CityHashFactory.Instance.Create();
         }
 
+        public int GetBlockStartIndex(int blockNumber) => blockNumber * _step;
+        public int GetBlockEndIndex(int blockNumber) => blockNumber * _step + _blockSize - 1;
+
         public IEnumerable<uint[]> CalculateBlocks(int[] data)
         {
-            for (var i = 0; i <= data.Length - _blockSize; i += _step)
+            var i = 0;
+            while (i < data.Length)
             {
-                yield return Calculate(data, i, Math.Min(_blockSize, data.Length - i));
+                var length = Math.Min(_blockSize, data.Length - i);
+                yield return Calculate(data, i, length);
+                if (i + length == data.Length)
+                {
+                    break;
+                }
+
+                i += _step;
             }
         }
 
