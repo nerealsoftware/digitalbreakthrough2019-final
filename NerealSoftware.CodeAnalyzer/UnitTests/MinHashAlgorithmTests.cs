@@ -10,28 +10,22 @@ namespace SimilarityModule.Tests
         [TestMethod]
         public void SimpleTest()
         {
-            var algorithm = new MinHashAlgorithm(100);
-            var data = new int[1000];
-            for (int i = 0; i < data.Length; i++)
+            var algorithm = new MinHashAlgorithm(100, 4);
+            var calculator = new SimilarityCalculator(algorithm);
+
+            var data1 = new int[1000];
+            var data2 = new int[1100];
+            for (var i = 0; i < data1.Length; i++)
             {
-                data[i] = i;
+                data1[i] = i;
+            }
+            for (var i = 0; i < data2.Length; i++)
+            {
+                data2[i] = i;
             }
 
-            var result1 = algorithm.Calculate(data, 4);
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = i + 100;
-            }
-            var result2 = algorithm.Calculate(data, 4);
-
-            for (int i = 0; i < result1.Length; i++)
-            {
-                if (result1[i] != result2[i])
-                {
-                    Console.WriteLine($"Result diffs at index {i}");
-                }
-            }
+            var similarity = calculator.Calculate(data1, data2);
+            Console.WriteLine($"Similarity of [0..{data1.Length-1}] and [0..{data2.Length-1}] is {similarity:P}");
         }
     }
 }
