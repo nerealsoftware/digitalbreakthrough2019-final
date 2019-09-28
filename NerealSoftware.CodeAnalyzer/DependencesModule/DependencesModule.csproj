@@ -42,8 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AhoCorasick\HashSet.cs" />
+    <Compile Include="AhoCorasick\SearchFsa.cs" />
+    <Compile Include="AhoCorasick\SearchFsa.EndPoint.cs" />
+    <Compile Include="AhoCorasick\SearchFsa.Node.cs" />
     <Compile Include="AhoCorasik\AhoKorasikAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
