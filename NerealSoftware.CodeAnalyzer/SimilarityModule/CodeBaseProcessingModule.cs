@@ -10,9 +10,9 @@ namespace SimilarityModule
 {
     public class CodeBaseProcessingModule : IProcessingModule
     {
-        private readonly ISource _source;
-        private readonly IParser _parser;
         private readonly MinHashAlgorithm _algorithm;
+        private readonly IParser _parser;
+        private readonly ISource _source;
 
         public CodeBaseProcessingModule(ISource source, IParser parser, MinHashAlgorithm algorithm)
         {
@@ -23,12 +23,14 @@ namespace SimilarityModule
 
         public ICommonResults Execute(IEnumerable<IFileSource> fileSources)
         {
-            var baseFiles = _source.GetFiles().Select(f=>new FileData(f)).ToList();
-            var processingFiles = fileSources.Select(f=>new FileData(f)).ToList();
+            var baseFiles = _source.GetFiles().Select(f => new FileData(f)).ToList();
+            var processingFiles = fileSources.Select(f => new FileData(f)).ToList();
+            OnProgress?.Invoke(new ProcessingModuleEventData(null, "Чтение кодовой базы", 0,
+                processingFiles.Count + 1, 0, baseFiles.Count));
             for (var i = 0; i < baseFiles.Count; i++)
             {
                 var fileData = baseFiles[i];
-                OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, "Чтение кодовой базы", 0,
+                OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, null, 0,
                     processingFiles.Count + 1, i, baseFiles.Count));
                 fileData.Tokens = _parser.GetTokens(fileData.File);
                 var data = fileData.Tokens.Select(t => t.Code).ToArray();
@@ -40,7 +42,8 @@ namespace SimilarityModule
             for (var i = 0; i < processingFiles.Count; i++)
             {
                 var fileData = processingFiles[i];
-                OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, "Анализ входного файла", i+1,
+                OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File,
+                    $"Анализ входного файла {fileData.File.GetFileName()} на дубликаты", i + 1,
                     processingFiles.Count + 1, 0, baseFiles.Count));
                 fileData.Tokens = _parser.GetTokens(fileData.File);
                 var data = fileData.Tokens.Select(t => t.Code).ToArray();
@@ -50,7 +53,7 @@ namespace SimilarityModule
                 for (var j = 0; j < baseFiles.Count; j++)
                 {
                     var baseFile = baseFiles[j];
-                    OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, $"Анализ входного файла на дубликаты с {baseFile.File.GetFileName()}", i+1,
+                    OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, null, i + 1,
                         processingFiles.Count + 1, j, baseFiles.Count));
                     var similarBlocks = comparer.GetSimilarBlocks(fileData, baseFile).ToList();
                     if (similarBlocks.Count > 0)
@@ -62,18 +65,17 @@ namespace SimilarityModule
                         {
                             report.AppendLine(
                                 $"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
-                            var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
+                            var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource,
+                                similarBlock.File1Start.Position,
                                 similarBlock.File1End.Position);
-                            var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
+                            var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource,
+                                similarBlock.File2Start.Position,
                                 similarBlock.File2End.Position);
-                            var diffs = lcs.GetDiff(lines1, lines2);
+                            var diffs = lcs.GetDiff(lines2, lines1);
                             foreach (var diff in diffs)
                             {
                                 var symbol = GetDiffOperationSymbol(diff.Operation);
-                                foreach (var item in diff.Items)
-                                {
-                                    report.AppendLine($"{symbol} {item}");
-                                }
+                                foreach (var item in diff.Items) report.AppendLine($"{symbol} {item}");
                             }
 
                             report.AppendLine();
@@ -86,6 +88,8 @@ namespace SimilarityModule
 
             return new ModuleResults(results);
         }
+
+        public event Action<ProcessingModuleEventData> OnProgress;
 
         private char GetDiffOperationSymbol(DiffOperation operation)
         {
@@ -102,9 +106,7 @@ namespace SimilarityModule
             }
         }
 
-        public event Action<ProcessingModuleEventData> OnProgress;
-
-        private class ModuleResults :ICommonResults
+        private class ModuleResults : ICommonResults
         {
             public ModuleResults(IEnumerable<IProcessingResult> results)
             {
@@ -114,7 +116,8 @@ namespace SimilarityModule
             public IEnumerable<IProcessingResult> Results { get; }
         }
 
-        private class Result : IProcessingResult {
+        private class Result : IProcessingResult
+        {
             public Result(IFileSource file, IEnumerable<IFileSource> linkedFiles, string report)
             {
                 File = file;
