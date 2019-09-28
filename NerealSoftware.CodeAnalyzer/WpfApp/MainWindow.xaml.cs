@@ -40,16 +40,23 @@ namespace WpfApp
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ProgressWindow progressWindow = new ProgressWindow();
-            this.Hide();
-            RunAnalayser(progressWindow);
-            progressWindow.ShowDialog();
-            this.Show();
-        }
-
-        private void RunAnalayser(ProgressWindow progressWindow)
-        {
-            //
+            if (((string.IsNullOrWhiteSpace(Path.Text)))||(!Directory.Exists(Path.Text)))
+            {
+                MessageBox.Show("Не задана директория для анализируемых файлов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if (CheckBoxReestr.IsChecked.GetValueOrDefault())
+            {
+                if (((string.IsNullOrWhiteSpace(ReestrPath.Text)))||(!Directory.Exists(Path.Text)))
+                {
+                    MessageBox.Show("Не задана директория для файлов реестра ПО","Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
+                    return;
+                }
+                ProgressWindow progressWindow = new ProgressWindow(Path.Text, ReestrPath.Text);
+                this.Hide();
+                progressWindow.ShowDialog();
+                this.Show();
+            }
         }
 
         private void ReestrCheck(object sender, RoutedEventArgs e)

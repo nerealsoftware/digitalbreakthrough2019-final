@@ -19,18 +19,20 @@ namespace WpfApp
     /// </summary>
     public partial class ResultWindow : Window
     {
-        public ResultWindow()
+        public ResultWindow(CodeAnalyzer.Interface.ICommonResults results)
         {
             InitializeComponent();
-            FillFileDataGrid();
+            FillFileDataGrid(results);
         }
 
-        private void FillFileDataGrid()
+        private void FillFileDataGrid(CodeAnalyzer.Interface.ICommonResults results)
         {
+            int i = 1;
             var list = new List<FileGridItem>();
-            for (var i = 0; i < 10; i++)
+            foreach (var fileSource in results.FileSources)
             {
-                list.Add(new FileGridItem(i + 1, $"{i + 1}",$"Описание {i + 1}"));
+                list.Add(new FileGridItem(i + 1, $"{fileSource.GetFileName()}", $"{fileSource.ToString()}"));
+                i++;
             }
             fileGrid.ItemsSource = list;
         }

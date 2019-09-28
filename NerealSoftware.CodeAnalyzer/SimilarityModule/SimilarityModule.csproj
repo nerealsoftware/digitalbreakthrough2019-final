@@ -57,6 +57,7 @@
     <Compile Include="MinHash\MinHashAlgorithm.cs" />
     <Compile Include="MinHash\SimilarityCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CodeBaseProcessingModule.cs" />
     <Compile Include="TokenListComparer.cs" />
   </ItemGroup>
   <ItemGroup>
