@@ -9,7 +9,11 @@ namespace CodeAnalyzer.Interface
     public interface IToken
     {
         int Position { get; set; }
+
         IFileSource FileSource { get; set; }
+
         int Code { get; set; }
+
+        int StringLength { get; set; }
     }
 }
