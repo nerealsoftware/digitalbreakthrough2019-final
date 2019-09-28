@@ -3,6 +3,14 @@ using CodeAnalyzer.Interface;
 
 namespace CodeAnalyzer.Sources
 {
+    public class LshContentCompareModule : IProcessingModule
+    {
+        public ICommonResults Execute(IEnumerable<IFileSource> fileSources)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
     public class FileLineExtractor
     {
         public string[] ExtractLines(IFileSource file, int startPosition, int endPosition)

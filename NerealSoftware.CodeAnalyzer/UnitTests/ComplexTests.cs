@@ -19,15 +19,22 @@ namespace UnitTests
         {
             var path = @"C:\Projects\digitalbreakthrough2019-final\NerealSoftware.CodeAnalyzer\UnitTests\Files";
             var source = new FileSystemSource(path);
+
             var files = source.GetFiles().ToList();
+
             var file1 = files[0];
             var file2 = files[1];
             
+            CompareTwoFiles(file1, file2);
+        }
+
+        private void CompareTwoFiles(IFileSource file1, IFileSource file2)
+        {
             var parser = new CsParser();
-            var offsetStore1 = new OffsetsStore();
-            var tokens1 = parser.GetTokens(file1, offsetStore1);
-            var offsetStore2 = new OffsetsStore();
-            var tokens2 = parser.GetTokens(file2, offsetStore2);
+            //var offsetStore1 = new OffsetsStore();
+            var tokens1 = parser.GetTokens(file1 /*, offsetStore1*/);
+            //var offsetStore2 = new OffsetsStore();
+            var tokens2 = parser.GetTokens(file2 /*, offsetStore2*/);
 
             Console.WriteLine($"{file1.GetFileName()} - {tokens1.Count} tokens");
             Console.WriteLine($"{file2.GetFileName()} - {tokens2.Count} tokens");
@@ -46,7 +53,7 @@ namespace UnitTests
                 for (int j = 0; j < blocks2.Count; j++)
                 {
                     var similarity = calculator.Calculate(blocks1[i], blocks2[j]);
-                    Console.Write((99*similarity).ToString("00"));
+                    Console.Write((99 * similarity).ToString("00"));
                     Console.Write(" ");
                 }
 
@@ -59,7 +66,8 @@ namespace UnitTests
             var lcs = new LcsAlgorithm();
             foreach (var similarBlock in result)
             {
-                Console.WriteLine($"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
+                Console.WriteLine(
+                    $"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
                 var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
                     similarBlock.File1End.Position);
                 var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,

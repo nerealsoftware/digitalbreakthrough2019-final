@@ -119,8 +119,9 @@ namespace CodeParser
             return tokens;
         }
 
-        public List<IToken> GetTokens(IFileSource fileSource, OffsetsStore offsetsStore)
+        public List<IToken> GetTokens(IFileSource fileSource, OffsetsStore offsetsStore = null)
         {
+            offsetsStore = offsetsStore ?? new OffsetsStore();
             return IntGetTokens(fileSource.GetData(), fileSource, offsetsStore);
         }
 
