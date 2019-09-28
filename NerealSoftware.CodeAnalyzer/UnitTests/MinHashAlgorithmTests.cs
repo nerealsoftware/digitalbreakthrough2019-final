@@ -10,7 +10,7 @@ namespace SimilarityModule.Tests
         [TestMethod]
         public void SimpleTest()
         {
-            var algorithm = new MinHashAlgorithm(100, 4);
+            var algorithm = new MinHashAlgorithm(100, 4, 4);
             var calculator = new SimilarityCalculator(algorithm);
 
             var data1 = new int[1000];
