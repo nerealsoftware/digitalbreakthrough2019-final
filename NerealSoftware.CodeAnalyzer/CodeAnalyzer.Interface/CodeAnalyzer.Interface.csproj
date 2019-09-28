@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICommonResults.cs" />
     <Compile Include="IDiffSegment.cs" />
+    <Compile Include="IProcessingModule.cs" />
     <Compile Include="ISimilarBlock.cs" />
     <Compile Include="ISource.cs" />
     <Compile Include="IToken.cs" />
