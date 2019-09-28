@@ -68,6 +68,10 @@
       <Project>{B150B8AC-09C9-430C-8295-3476304E36B5}</Project>
       <Name>CodeAnalyzer.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeAnalyzer.Utils\CodeAnalyzer.Utils.csproj">
+      <Project>{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}</Project>
+      <Name>CodeAnalyzer.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

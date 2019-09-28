@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CD431766-9DE0-40C4-9FC7-0653C54446E0}</ProjectGuid>
+    <ProjectGuid>{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeAnalyzer.Sources</RootNamespace>
-    <AssemblyName>CodeAnalyzer.Sources</AssemblyName>
+    <RootNamespace>CodeAnalyzer.Utils</RootNamespace>
+    <AssemblyName>CodeAnalyzer.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,7 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemSource.cs" />
+    <Compile Include="FileLineExtractor.cs" />
+    <Compile Include="LcsAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

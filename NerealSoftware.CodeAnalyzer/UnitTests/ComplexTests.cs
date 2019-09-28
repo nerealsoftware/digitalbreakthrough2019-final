@@ -1,9 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using CodeAnalyzer.Interface;
 using CodeAnalyzer.Sources;
+using CodeAnalyzer.Utils;
 using CodeParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimilarityModule;
@@ -24,7 +23,7 @@ namespace UnitTests
 
             var file1 = files[0];
             var file2 = files[1];
-            
+
             CompareTwoFiles(file1, file2);
         }
 
@@ -50,7 +49,7 @@ namespace UnitTests
 
             for (var i = 0; i < blocks1.Count; i++)
             {
-                for (int j = 0; j < blocks2.Count; j++)
+                for (var j = 0; j < blocks2.Count; j++)
                 {
                     var similarity = calculator.Calculate(blocks1[i], blocks2[j]);
                     Console.Write((99 * similarity).ToString("00"));
@@ -68,18 +67,17 @@ namespace UnitTests
             {
                 Console.WriteLine(
                     $"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
-                var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
+                var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource,
+                    similarBlock.File1Start.Position,
                     similarBlock.File1End.Position);
-                var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
+                var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource,
+                    similarBlock.File2Start.Position,
                     similarBlock.File2End.Position);
                 var diffs = lcs.GetDiff(lines1, lines2);
                 foreach (var diff in diffs)
                 {
                     var symbol = GetDiffOperationSymbol(diff.Operation);
-                    foreach (var item in diff.Items)
-                    {
-                        Console.WriteLine($"{symbol} {item}");
-                    }
+                    foreach (var item in diff.Items) Console.WriteLine($"{symbol} {item}");
                 }
             }
         }

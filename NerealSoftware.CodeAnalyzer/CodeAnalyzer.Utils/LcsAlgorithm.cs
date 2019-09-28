@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CodeAnalyzer.Interface;
 
-namespace CodeAnalyzer.Sources
+namespace CodeAnalyzer.Utils
 {
     public class LcsAlgorithm
     {

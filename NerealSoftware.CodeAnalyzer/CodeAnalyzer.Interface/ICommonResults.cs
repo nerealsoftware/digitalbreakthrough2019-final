@@ -4,8 +4,6 @@ namespace CodeAnalyzer.Interface
 {
     public interface ICommonResults
     {
-        IEnumerable<IFileSource> FileSources { get; }
-
-        
+        IEnumerable<IProcessingResult> Results { get; }
     }
 }

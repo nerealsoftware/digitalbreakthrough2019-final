@@ -110,6 +110,10 @@
       <Project>{CD431766-9DE0-40C4-9FC7-0653C54446E0}</Project>
       <Name>CodeAnalyzer.Sources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeAnalyzer.Utils\CodeAnalyzer.Utils.csproj">
+      <Project>{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}</Project>
+      <Name>CodeAnalyzer.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeParser\CodeParser.csproj">
       <Project>{fe80791d-0e16-4067-94a4-1d283a8c286b}</Project>
       <Name>CodeParser</Name>
