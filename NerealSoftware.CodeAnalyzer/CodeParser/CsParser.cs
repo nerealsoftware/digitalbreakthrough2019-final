@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,47 +15,6 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace CodeParser
 {
-    public class OffsetsStore : Dictionary<int,int>
-    {
-        protected int ShiftSize = 0;
-        protected void AddToOffsets(int newPos, int oldPos)
-        {
-            if (newPos < 0 || this.ContainsKey(newPos)) return;
-            this[newPos] = oldPos;
-            _keys = null;
-        }
-
-        public void StoreOffset(int p, int length, int replaceLength)
-        {
-            int np = p - ShiftSize;
-            AddToOffsets(np, p);
-            ShiftSize += length - replaceLength;
-            AddToOffsets(np + replaceLength - 1, p + length - 1);
-        }
-
-        protected int[] _keys = null;
-
-        public int RecoverOffset(int newOffset)
-        {
-            _keys = _keys ?? this.Keys.ToArray();
-
-            if (_keys.Length < 1) return newOffset;
-
-            int l = 0, r = _keys.Length - 1;
-            while ((r - l) > 1)
-            {
-                int m = (r + l) >> 1;
-                if (_keys[m] > newOffset)
-                    r = m;
-                else
-                    l = m;
-            }
-
-            int key = _keys[l];
-            return this[key];
-        }
-    }
-
     public class CsParser
     {
         public class Rewriter : CSharpSyntaxRewriter, IRewriter

@@ -10,6 +10,23 @@ namespace UnitTests
     public class CsParserTests
     {
         [TestMethod]
+        public void OffsetsSimple()
+        {
+            var offsetsStore = new OffsetsStore();
+            offsetsStore.StoreOffset(2,4,2);
+            offsetsStore.StoreOffset(5,0,0);
+            offsetsStore.StoreOffset(9,5,2);
+            offsetsStore.StoreOffset(13,0,0);
+
+            Assert.AreEqual(offsetsStore.RecoverOffset(2), 2);
+            Assert.AreEqual(offsetsStore.RecoverOffset(3), 5);
+            Assert.AreEqual(offsetsStore.RecoverOffset(7), 9);
+            Assert.AreEqual(offsetsStore.RecoverOffset(8), 13);
+            Assert.AreEqual(offsetsStore.RecoverOffset(1), 0);
+            Assert.AreEqual(offsetsStore.RecoverOffset(6), 6);
+        }
+
+        [TestMethod]
         public void ParseText()
         {
             var src = TestHelper.ReadResource("UnitTests.Res.AhoKorasikAlgorithm.txt");
