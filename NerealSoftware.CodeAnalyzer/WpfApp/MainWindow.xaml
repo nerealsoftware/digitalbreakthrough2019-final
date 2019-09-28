@@ -5,30 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="491"
-        Icon="H:\GitProjects\digitalbreakthrough2019final\NerealSoftware.CodeAnalyzer\WpfApp\Resource\TestIcon2.png">
+        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="491" ResizeMode="NoResize">
+    <!--WindowStyle="ToolWindow" SnapsToDevicePixels="False" BorderThickness="0"-->
+    <!--<Window.Effect>
+        <DropShadowEffect BlurRadius="21" Direction="280" Opacity="0.615" RenderingBias="Performance" ShadowDepth="4" Color="Black"/>
+    </Window.Effect>-->
     <Grid Margin="0,0,2,3">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                <GradientStop Color="White" Offset="1"/>
-                <GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
-            </LinearGradientBrush>
-        </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="116*"/>
-            <ColumnDefinition Width="149*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Name="Path" HorizontalAlignment="Left" Height="23" Margin="29,35,0,0" TextWrapping="Wrap" Text="Укажите путь к файлам проверяемого ПО..." VerticalAlignment="Top" Width="406" Grid.ColumnSpan="2"/>
-        <Label Content="Путь к файлам анализируемого ПО" HorizontalAlignment="Left" Margin="29,10,0,0" VerticalAlignment="Top" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Button Content="..." HorizontalAlignment="Left" Margin="224,35,0,0" VerticalAlignment="Top" Width="29" Click="Button_Click" RenderTransformOrigin="-0.4,0.65" Height="23" Grid.Column="1"/>
-        <Label Content="Использовать при анализе следующие модули:" HorizontalAlignment="Left" Margin="29,68,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <CheckBox Content="Анализ информационной безопасности" HorizontalAlignment="Left" Margin="29,216,0,0" VerticalAlignment="Top" IsEnabled="False" Grid.ColumnSpan="2"/>
-        <CheckBox Content="Библиотеки GitHub" HorizontalAlignment="Left" Margin="29,196,0,0" VerticalAlignment="Top" IsEnabled="False"/>
-        <CheckBox Content="Модуль проверки зависимостей от Иностранного ПО" HorizontalAlignment="Left" Margin="29,176,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <CheckBox Name="CheckBoxReestr" Content="Реестр существующего ПО" HorizontalAlignment="Left" Margin="29,99,0,0" VerticalAlignment="Top" Click="ReestrCheck" />
-        <Button Content="Выполнить анализ ПО" HorizontalAlignment="Left" Margin="112,258,0,0" VerticalAlignment="Top" Width="141" Click="Button_Click_1" Height="26" Grid.Column="1"/>
-        <ComboBox HorizontalAlignment="Left" Margin="29,262,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="1">
+        <TextBox Name="Path" Height="23" Margin="24,36,52,0" TextWrapping="Wrap" Text="Укажите путь к файлам проверяемого ПО..." VerticalAlignment="Top" FontFamily="Courier New" VerticalContentAlignment="Center"/>
+        <Label Content="Путь к файлам анализируемого ПО" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" FontWeight="Bold" FontFamily="Courier New" FontSize="14" Width="283"/>
+        <Label Content="Использовать при анализе следующие модули:" Margin="11,87,17,0" VerticalAlignment="Top" FontFamily="Courier New" FontSize="14" FontWeight="Bold"/>
+        <CheckBox Content="Анализ информационной безопасности" HorizontalAlignment="Left" Margin="24,201,0,0" VerticalAlignment="Top" IsEnabled="False" Width="281" FontFamily="Courier New" FontSize="14"/>
+        <CheckBox Content="Библиотеки GitHub" HorizontalAlignment="Left" Margin="24,181,0,0" VerticalAlignment="Top" IsEnabled="False" FontFamily="Courier New" FontSize="14" Width="190"/>
+        <CheckBox Content="Модуль проверки зависимостей от Иностранного ПО" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="14"/>
+        <CheckBox Name="CheckBoxReestr" Content="Реестр существующего ПО" HorizontalAlignment="Left" Margin="24,113,0,0" VerticalAlignment="Top" Click="ReestrCheck" Width="222" FontFamily="Courier New" FontSize="14" />
+        <Button Name="BtnStart" Content="Выполнить анализ ПО" HorizontalAlignment="Left" Margin="312,246,0,0" VerticalAlignment="Top" Width="152"
+                Click="Button_Click_1" Height="26"
+                MouseEnter="Button_MouseEnter" MouseLeave="BtnStart_MouseLeave" FontFamily="Courier New" Background = "LimeGreen">
+            <!--<Button.Background>
+                <SolidColorBrush Color="#FF61FB33"></SolidColorBrush>
+            </Button.Background>-->
+        </Button>
+        <ComboBox HorizontalAlignment="Left" Margin="24,252,0,0" VerticalAlignment="Top" Width="120" SelectedIndex="1" FontFamily="Courier New">
             <TextBlock>C++</TextBlock>
             <TextBlock>C#</TextBlock>
             <TextBlock>Java</TextBlock>
@@ -36,7 +37,7 @@
             <TextBlock>Python</TextBlock>
             <TextBlock>Go</TextBlock>
         </ComboBox>
-        <Label Content="Язык программирования" HorizontalAlignment="Left" Margin="28,236,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+        <Label Content="Язык программирования" HorizontalAlignment="Left" Margin="13,224,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" FontFamily="Courier New" Width="182" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -46,8 +47,9 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <TextBox Name="ReestrPath" HorizontalAlignment="Left" IsEnabled="False" Height="23" Margin="29,119,0,0" TextWrapping="Wrap" Text="Путь к файлам реестра" VerticalAlignment="Top" Width="406" Grid.ColumnSpan="2"/>
-        <Button Name="reestrPathBtn" Content="..." Grid.Column="1" IsEnabled="False" HorizontalAlignment="Left" Margin="224,119,0,0" VerticalAlignment="Top" Width="29" Click="Button_Click_2" Height="23"/>
+        <TextBox Name="ReestrPath" IsEnabled="False" Height="23" Margin="24,133,52,0" TextWrapping="Wrap" Text="Путь к файлам реестра" VerticalAlignment="Top" FontFamily="Courier New" VerticalContentAlignment="Center"/>
+        <Button Content="..." Margin="429,36,0,0" VerticalAlignment="Top" Width="29" Height="23" Click="Button_Click_3" HorizontalAlignment="Left"/>
+        <Button Name="reestrPathBtn" Content="..." Margin="429,133,0,0" VerticalAlignment="Top" Width="29" Height="23" Click="Button_Click_2" HorizontalAlignment="Left"/>
 
     </Grid>
 </Window>

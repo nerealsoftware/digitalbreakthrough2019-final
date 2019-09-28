@@ -5,13 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Ход выполнения анализа" Height="365" Width="425">
+        Title="Ход выполнения анализа" Height="377" Width="541">
     <Grid>
-        <ProgressBar Name="FileProgressBar" HorizontalAlignment="Left" Height="25" Margin="10,33,0,0" VerticalAlignment="Top" Width="372" Grid.ColumnSpan="2"/>
-        <ProgressBar Name="AllProgressBar" HorizontalAlignment="Left" Height="25" Margin="10,80,0,0" VerticalAlignment="Top" Width="372" Grid.ColumnSpan="2"/>
-        <Label Content="Количество обработанных файлов:" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" Width="372" Height="29" Grid.ColumnSpan="2"/>
-            <TextBox Name="ProgressText" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" HorizontalAlignment="Left" Height="180" 
-                     Margin="10,144,0,0" TextWrapping="Wrap" Text="Ход выполнения анализа:" VerticalAlignment="Top" Width="382" TextChanged="TextBox_TextChanged">
-            </TextBox>
+        <ProgressBar Name="FileProgressBar" Height="25" Margin="10,12,10,0" VerticalAlignment="Top"/>
+        <ProgressBar Name="AllProgressBar" Height="25" Margin="10,42,10,0" VerticalAlignment="Top"/>
+        <Label Content="Количество обработанных файлов:" Margin="10,72,10,0" VerticalAlignment="Top" Height="29"/>
+        <TextBox Name="ProgressText" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" 
+                     Margin="10,101,10,10" TextWrapping="Wrap" Text="Ход выполнения анализа:" TextChanged="TextBox_TextChanged"/>
     </Grid>
 </Window>
