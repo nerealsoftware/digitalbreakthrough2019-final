@@ -8,11 +8,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>WpfApp</RootNamespace>
     <AssemblyName>WpfApp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -65,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModuleFactory.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,6 +142,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MainIcon2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeAnalyzer.Interface\CodeAnalyzer.Interface.csproj">
+      <Project>{B150B8AC-09C9-430C-8295-3476304E36B5}</Project>
+      <Name>CodeAnalyzer.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeAnalyzer.Sources\CodeAnalyzer.Sources.csproj">
+      <Project>{CD431766-9DE0-40C4-9FC7-0653C54446E0}</Project>
+      <Name>CodeAnalyzer.Sources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeParser\CodeParser.csproj">
+      <Project>{FE80791D-0E16-4067-94A4-1D283A8C286B}</Project>
+      <Name>CodeParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimilarityModule\SimilarityModule.csproj">
+      <Project>{7B5516AC-C818-4842-9DF6-1683E0AC4FBE}</Project>
+      <Name>SimilarityModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
