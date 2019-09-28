@@ -25,7 +25,7 @@ namespace SimilarityModule.MinHash
                 var config = new MurmurHash3Config
                 {
                     HashSizeInBits = 32,
-                    Seed = uint.MaxValue / (uint) hashCount * (uint) i
+                    Seed = (uint.MaxValue / (uint) hashCount) * ((uint) i)
                 };
                 _hashFunctions[i] = factory.Create(config);
             }
