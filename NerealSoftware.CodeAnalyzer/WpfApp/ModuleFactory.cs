@@ -12,7 +12,7 @@ namespace WpfApp
         {
             var baseSource = new FileSystemSource(basePath);
             var parser = new CsParser();
-            var algorithm = new MinHashAlgorithm(20, 4, 4, 10, 5 );
+            var algorithm = new MinHashAlgorithm(20, 8, 4, 15, 5);
             return new CodeBaseProcessingModule(baseSource, parser, algorithm);
         }
     }
