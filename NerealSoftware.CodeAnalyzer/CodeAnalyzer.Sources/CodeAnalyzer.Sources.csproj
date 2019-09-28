@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="FileLineExtractor.cs" />
     <Compile Include="FileSystemSource.cs" />
+    <Compile Include="LcsAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

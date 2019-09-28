@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using CodeAnalyzer.Interface;
 using CodeAnalyzer.Sources;
 using CodeParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -55,21 +56,38 @@ namespace UnitTests
             var comparer = new TokenListComparer(algorithm);
             var result = comparer.Compare(tokens1, tokens2);
             var extractor = new FileLineExtractor();
+            var lcs = new LcsAlgorithm();
             foreach (var similarBlock in result)
             {
                 Console.WriteLine($"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
-                var lines = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
+                var lines1 = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
                     similarBlock.File1End.Position);
-                foreach (var line in lines)
-                {
-                    Console.WriteLine(line);
-                }
-                lines = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
+                var lines2 = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
                     similarBlock.File2End.Position);
-                foreach (var line in lines)
+                var diffs = lcs.GetDiff(lines1, lines2);
+                foreach (var diff in diffs)
                 {
-                    Console.WriteLine(line);
+                    var symbol = GetDiffOperationSymbol(diff.Operation);
+                    foreach (var item in diff.Items)
+                    {
+                        Console.WriteLine($"{symbol} {item}");
+                    }
                 }
+            }
+        }
+
+        private char GetDiffOperationSymbol(DiffOperation operation)
+        {
+            switch (operation)
+            {
+                case DiffOperation.Copied:
+                    return ' ';
+                case DiffOperation.Added:
+                    return '+';
+                case DiffOperation.Deleted:
+                    return '-';
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(operation), operation, null);
             }
         }
     }
