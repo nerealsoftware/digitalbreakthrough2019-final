@@ -12,5 +12,6 @@ namespace CodeParser
         public int Position { get; set; }
         public IFileSource FileSource { get; set; }
         public int Code { get; set; }
+        public int StringLength { get; set; }
     }
 }

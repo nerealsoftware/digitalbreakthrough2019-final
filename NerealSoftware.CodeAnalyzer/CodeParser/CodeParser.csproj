@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="CsParser.cs" />
     <Compile Include="CsToken.cs" />
+    <Compile Include="IRewriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
