@@ -57,10 +57,16 @@
     <Compile Include="MinHash\MinHashAlgorithm.cs" />
     <Compile Include="MinHash\SimilarityCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenListComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CodeAnalyzer.Interface\CodeAnalyzer.Interface.csproj">
+      <Project>{B150B8AC-09C9-430C-8295-3476304E36B5}</Project>
+      <Name>CodeAnalyzer.Interface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

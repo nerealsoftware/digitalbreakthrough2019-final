@@ -38,6 +38,9 @@ namespace SimilarityModule.MinHash
             _groupHashFunction = CityHashFactory.Instance.Create();
         }
 
+        public int GetBlockStartIndex(int blockNumber) => blockNumber * _step;
+        public int GetBlockEndIndex(int blockNumber) => blockNumber * _step + _blockSize - 1;
+
         public IEnumerable<uint[]> CalculateBlocks(int[] data)
         {
             var i = 0;

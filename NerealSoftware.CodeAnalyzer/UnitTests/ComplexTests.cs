@@ -5,6 +5,7 @@ using System.Reflection;
 using CodeAnalyzer.Sources;
 using CodeParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SimilarityModule;
 using SimilarityModule.MinHash;
 
 namespace UnitTests
@@ -42,11 +43,18 @@ namespace UnitTests
                 for (int j = 0; j < blocks2.Count; j++)
                 {
                     var similarity = calculator.Calculate(blocks1[i], blocks2[j]);
-                    Console.Write((25*similarity).ToString("00"));
+                    Console.Write((99*similarity).ToString("00"));
                     Console.Write(" ");
                 }
 
                 Console.WriteLine();
+            }
+
+            var comparer = new TokenListComparer(algorithm);
+            var result = comparer.Compare(tokens1, tokens2);
+            foreach (var similarBlock in result)
+            {
+                Console.WriteLine($"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
             }
         }
     }
