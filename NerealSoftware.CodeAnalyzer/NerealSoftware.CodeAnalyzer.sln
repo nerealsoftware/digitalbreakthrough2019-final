@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp", "WpfApp\WpfApp.csproj", "{6F9132DB-5523-4EE2-8541-CF9A1F9F557E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalyzer.Interface", "CodeAnalyzer.Interface\CodeAnalyzer.Interface.csproj", "{B150B8AC-09C9-430C-8295-3476304E36B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{6F9132DB-5523-4EE2-8541-CF9A1F9F557E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F9132DB-5523-4EE2-8541-CF9A1F9F557E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F9132DB-5523-4EE2-8541-CF9A1F9F557E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B150B8AC-09C9-430C-8295-3476304E36B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B150B8AC-09C9-430C-8295-3476304E36B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B150B8AC-09C9-430C-8295-3476304E36B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B150B8AC-09C9-430C-8295-3476304E36B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

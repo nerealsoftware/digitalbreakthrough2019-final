@@ -24,29 +24,67 @@ namespace WpfApp
         public ProgressWindow()
         {
             InitializeComponent();
-            FileProgressBar.Value = 0;
-            AllProgressBar.Value = 0;
-            FileProgressBar.Maximum = 100;
-            AllProgressBar.Maximum = 100;
+            SetProgressBarMaximum(ProgressBarCode.File, 100, 0);
+            SetProgressBarMaximum(ProgressBarCode.All, 100, 0);
             var thread = new Thread(ProgressBarUpdate);
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
 
+        public enum ProgressBarCode
+        {
+            File,
+            All
+        }
+
+        public void SetProgressBarMaximum(ProgressBarCode code, int maximum, int currentValue)
+        {
+            if (code == ProgressBarCode.All)
+            {
+                AllProgressBar.Dispatcher.Invoke(() => { AllProgressBar.Maximum = maximum; AllProgressBar.Value = currentValue; }, DispatcherPriority.Background);
+            }
+            else if (code == ProgressBarCode.File)
+            {
+                FileProgressBar.Dispatcher.Invoke(() => { FileProgressBar.Maximum = maximum; AllProgressBar.Value = currentValue; }, DispatcherPriority.Background);
+            }
+        }
+        public void SetProgressBarValue(ProgressBarCode code, int value)
+        {
+            if (code == ProgressBarCode.All)
+            {
+                AllProgressBar.Dispatcher.Invoke(() => AllProgressBar.Value = value, DispatcherPriority.Background);
+            }
+            else if (code == ProgressBarCode.File)
+            {
+                FileProgressBar.Dispatcher.Invoke(() => FileProgressBar.Value = value, DispatcherPriority.Background);
+            }
+        }
+
+        public void AddTextBoxMessage(string message)
+        {
+            ProgressText.Dispatcher.Invoke(() => { ProgressText.Text += $"{message}\r\n"; });
+        }
+
         public void ProgressBarUpdate()
         {
             var i = 0;
-            while (i < 10)
+            while (i < 100)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 i++;
-                FileProgressBar.Dispatcher.Invoke(() => FileProgressBar.Value = i, DispatcherPriority.Background);
-                AllProgressBar.Dispatcher.Invoke(() => AllProgressBar.Value = i, DispatcherPriority.Background);
+                SetProgressBarValue(ProgressBarCode.File, i);
+                SetProgressBarValue(ProgressBarCode.All, i);
+                AddTextBoxMessage($"Тест {i}.");
             }
             this.Dispatcher.Invoke(() => this.Hide(), DispatcherPriority.Background);
             ResultWindow resultWindow = new ResultWindow();
             resultWindow.Dispatcher.Invoke(()=> resultWindow.ShowDialog(), DispatcherPriority.Normal);
             this.Dispatcher.Invoke(() => this.Close(), DispatcherPriority.Background);
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ProgressText.ScrollToEnd();
         }
     }
 }

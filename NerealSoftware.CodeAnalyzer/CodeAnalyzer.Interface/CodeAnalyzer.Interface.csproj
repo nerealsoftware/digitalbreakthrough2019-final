@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{76E70171-69BF-44FD-B41E-CF5C04122B66}</ProjectGuid>
+    <ProjectGuid>{B150B8AC-09C9-430C-8295-3476304E36B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DependencesModule</RootNamespace>
-    <AssemblyName>DependencesModule</AssemblyName>
+    <RootNamespace>CodeAnalyzer.Interface</RootNamespace>
+    <AssemblyName>CodeAnalyzer.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,12 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AhoCorasick\HashSet.cs" />
-    <Compile Include="AhoCorasick\SearchFsa.cs" />
-    <Compile Include="AhoCorasick\SearchFsa.EndPoint.cs" />
-    <Compile Include="AhoCorasick\SearchFsa.Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

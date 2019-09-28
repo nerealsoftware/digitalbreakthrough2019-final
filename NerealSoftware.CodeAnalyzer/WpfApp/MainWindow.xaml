@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="491">
+        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="491"
+        Icon="H:\GitProjects\digitalbreakthrough2019final\NerealSoftware.CodeAnalyzer\WpfApp\Resource\TestIcon2.png">
     <Grid Margin="0,0,2,3">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                <GradientStop Color="White" Offset="1"/>
+                <GradientStop Color="{DynamicResource {x:Static SystemColors.ActiveCaptionColorKey}}"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="116*"/>
             <ColumnDefinition Width="149*"/>
