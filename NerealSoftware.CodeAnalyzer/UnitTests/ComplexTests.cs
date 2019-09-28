@@ -52,9 +52,22 @@ namespace UnitTests
 
             var comparer = new TokenListComparer(algorithm);
             var result = comparer.Compare(tokens1, tokens2);
+            var extractor = new FileLineExtractor();
             foreach (var similarBlock in result)
             {
                 Console.WriteLine($"{similarBlock.File1Start.FileSource.GetFileName()} [{similarBlock.File1Start.Position}..{similarBlock.File1End.Position}] ~= {similarBlock.File2Start.FileSource.GetFileName()} [{similarBlock.File2Start.Position}..{similarBlock.File2End.Position}]");
+                var lines = extractor.ExtractLines(similarBlock.File1Start.FileSource, similarBlock.File1Start.Position,
+                    similarBlock.File1End.Position);
+                foreach (var line in lines)
+                {
+                    Console.WriteLine(line);
+                }
+                lines = extractor.ExtractLines(similarBlock.File2Start.FileSource, similarBlock.File2Start.Position,
+                    similarBlock.File2End.Position);
+                foreach (var line in lines)
+                {
+                    Console.WriteLine(line);
+                }
             }
         }
     }
