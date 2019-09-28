@@ -47,7 +47,7 @@ namespace CodeAnalyzer.Utils
             else if (j > 0 && (i == 0 || c[i, j - 1] > c[i - 1, j]))
             {
                 GetDiff(c, s1, s2, i, j - 1, segments);
-                AddDiff(DiffOperation.Added, s1[i - 1]);
+                AddDiff(DiffOperation.Added, s2[j - 1]);
             }
             else if (i > 0 && (j == 0 || c[i, j - 1] <= c[i - 1, j]))
             {
