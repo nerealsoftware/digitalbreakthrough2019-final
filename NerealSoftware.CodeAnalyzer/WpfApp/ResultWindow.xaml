@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Title="Результаты анализа" Height="450" Width="800">
     <Grid>
-        
+        <TabControl HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
+            <TabItem Header="Cопоставления с существующим ПО">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Name="fileGrid" HorizontalAlignment="Left" Height="351" Margin="10,10,0,0" 
+                              VerticalAlignment="Top" Width="189" AutoGenerateColumns="False"
+                              SelectionChanged="fileGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding Path=Id}" Width="30"/>
+                            <DataGridTextColumn Header="Файл" Binding="{Binding Path=FileName}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <TextBox Name="fileDescription" HorizontalAlignment="Left" Height="51" Margin="204,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="552"/>
+                    <WebBrowser Name="fileReportWB" HorizontalAlignment="Left" Height="295" Margin="204,66,0,0" VerticalAlignment="Top" Width="552" xmlns:BrowserBehavior.Html="{Binding HtmlToDisplay}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Зависимости">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
+
     </Grid>
 </Window>

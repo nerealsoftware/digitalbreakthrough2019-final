@@ -68,7 +68,7 @@ namespace WpfApp
         public void ProgressBarUpdate()
         {
             var i = 0;
-            while (i < 100)
+            while (i < 10)
             {
                 Thread.Sleep(100);
                 i++;
