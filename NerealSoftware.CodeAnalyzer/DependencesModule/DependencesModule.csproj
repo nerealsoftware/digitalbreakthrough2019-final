@@ -46,6 +46,7 @@
     <Compile Include="AhoCorasick\SearchFsa.cs" />
     <Compile Include="AhoCorasick\SearchFsa.EndPoint.cs" />
     <Compile Include="AhoCorasick\SearchFsa.Node.cs" />
+    <Compile Include="CSharpKeywords.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
