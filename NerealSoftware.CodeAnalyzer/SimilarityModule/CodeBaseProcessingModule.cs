@@ -13,6 +13,7 @@ namespace SimilarityModule
         private readonly MinHashAlgorithm _algorithm;
         private readonly IParser _parser;
         private readonly ISource _source;
+        private int _maxMainProgress = -1;
 
         public CodeBaseProcessingModule(ISource source, IParser parser, MinHashAlgorithm algorithm)
         {
@@ -25,13 +26,14 @@ namespace SimilarityModule
         {
             var baseFiles = _source.GetFiles().Select(f => new FileData(f)).ToList();
             var processingFiles = fileSources.Select(f => new FileData(f)).ToList();
+            _maxMainProgress = processingFiles.Count + 1;
             OnProgress?.Invoke(new ProcessingModuleEventData(null, "Чтение кодовой базы", 0,
-                processingFiles.Count + 1, 0, baseFiles.Count));
+                _maxMainProgress, 0, baseFiles.Count, this));
             for (var i = 0; i < baseFiles.Count; i++)
             {
                 var fileData = baseFiles[i];
                 OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, null, 0,
-                    processingFiles.Count + 1, i, baseFiles.Count));
+                    _maxMainProgress, i, baseFiles.Count, this));
                 fileData.Tokens = _parser.GetTokens(fileData.File);
                 var data = fileData.Tokens.Select(t => t.Code).ToArray();
                 fileData.Blocks = _algorithm.CalculateBlocks(data).ToList();
@@ -44,7 +46,7 @@ namespace SimilarityModule
                 var fileData = processingFiles[i];
                 OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File,
                     $"Анализ входного файла {fileData.File.GetFileName()} на дубликаты", i + 1,
-                    processingFiles.Count + 1, 0, baseFiles.Count));
+                    _maxMainProgress, 0, baseFiles.Count, this));
                 fileData.Tokens = _parser.GetTokens(fileData.File);
                 var data = fileData.Tokens.Select(t => t.Code).ToArray();
                 fileData.Blocks = _algorithm.CalculateBlocks(data).ToList();
@@ -54,7 +56,7 @@ namespace SimilarityModule
                 {
                     var baseFile = baseFiles[j];
                     OnProgress?.Invoke(new ProcessingModuleEventData(fileData.File, null, i + 1,
-                        processingFiles.Count + 1, j, baseFiles.Count));
+                        _maxMainProgress, j, baseFiles.Count, this));
                     var similarBlocks = comparer.GetSimilarBlocks(fileData, baseFile).ToList();
                     if (similarBlocks.Count > 0)
                     {
@@ -87,6 +89,11 @@ namespace SimilarityModule
             }
 
             return new ModuleResults(results);
+        }
+
+        public int? GetMaxMainProgressValue()
+        {
+            return _maxMainProgress <= 0 ? (int?)null : _maxMainProgress;
         }
 
         public event Action<ProcessingModuleEventData> OnProgress;

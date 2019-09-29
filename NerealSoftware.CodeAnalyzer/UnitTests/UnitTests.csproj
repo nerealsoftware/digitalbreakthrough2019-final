@@ -126,6 +126,10 @@
       <Project>{7B5516AC-C818-4842-9DF6-1683E0AC4FBE}</Project>
       <Name>SimilarityModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SimpleHeuristics\SimpleHeuristics.csproj">
+      <Project>{12c33c50-f973-455a-9662-27f8b8eae6cb}</Project>
+      <Name>SimpleHeuristics</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />

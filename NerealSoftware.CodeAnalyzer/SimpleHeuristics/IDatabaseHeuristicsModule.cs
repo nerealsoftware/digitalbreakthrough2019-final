@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using CodeAnalyzer.Interface;
 
-namespace CodeAnalyzer.Interface
+namespace SimpleHeuristics
 {
-    public interface IProcessingModule
+    public interface IDatabaseHeuristicsModule
     {
+        event Action<ProcessingModuleEventData> OnProgress;
+
         ICommonResults Execute(IEnumerable<IFileSource> fileSources);
         int? GetMaxMainProgressValue();
-
-        event Action<ProcessingModuleEventData> OnProgress;
     }
 }
