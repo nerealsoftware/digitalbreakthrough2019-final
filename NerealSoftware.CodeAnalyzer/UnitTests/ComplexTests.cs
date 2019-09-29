@@ -22,13 +22,22 @@ namespace UnitTests
             var files = baseSource.GetFiles();
 
             var module = CreateDatabaseHeuristicsModule();
-            ICommonResults results = module.Execute(files);
+            ICommonResults commonResults = module.Execute(files);
 
-            Assert.IsNotNull(results);
-            Assert.IsNotNull(results.Results);
-            Assert.IsTrue(results.Results.Any());
+            Assert.IsNotNull(commonResults);
+            Assert.IsNotNull(commonResults.Results);
+            Assert.IsTrue(commonResults.Results.Any());
+            Assert.AreEqual(commonResults.Results.Count(), 4);
 
+            var msList = commonResults.Results.Where(r => r.Report.Contains("MSSQL")).ToList();
+            Assert.IsTrue(msList.Any());
+            Assert.AreEqual(msList.Count, 2);
+            Assert.IsTrue(msList.All(r=>r.File.GetFileName().ToLower().Contains("_ms")));
 
+            var oraList = commonResults.Results.Where(r => r.Report.Contains("Oracle")).ToList();
+            Assert.IsTrue(oraList.Any());
+            Assert.AreEqual(oraList.Count, 2);
+            Assert.IsTrue(oraList.All(r => r.File.GetFileName().ToLower().Contains("_ora")));
         }
 
         [TestMethod]

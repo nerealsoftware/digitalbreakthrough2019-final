@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimilarityModule.MinHash;
+using Oracle.DataAccess.Client;
 
 namespace SimilarityModule.Tests
 {

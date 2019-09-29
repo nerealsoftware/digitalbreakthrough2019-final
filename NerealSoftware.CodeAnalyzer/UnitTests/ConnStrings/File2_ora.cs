@@ -8,6 +8,8 @@ namespace SimilarityModule.Tests
     [TestClass]
     public class MinHashAlgorithmTests
     {
+		private static string _cs = "Driver=(Oracle in XEClient);dbq=111.21.31.99:1521/XE;Uid=myUsername;Pwd=myPassword;";
+
         [TestMethod]
         public void SimpleTest()
         {
