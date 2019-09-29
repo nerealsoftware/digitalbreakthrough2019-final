@@ -7,5 +7,7 @@ namespace CodeAnalyzer.Interface
         IFileSource File { get; }
         IEnumerable<IFileSource> LinkedFiles { get; }
         string Report { get; }
+
+        IProcessingModule Module { get; }
     }
 }

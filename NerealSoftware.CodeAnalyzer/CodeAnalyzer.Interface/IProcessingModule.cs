@@ -10,5 +10,7 @@ namespace CodeAnalyzer.Interface
         int? GetMaxMainProgressValue();
 
         event Action<ProcessingModuleEventData> OnProgress;
+
+        IReportRenderer GetReportRenderer();
     }
 }

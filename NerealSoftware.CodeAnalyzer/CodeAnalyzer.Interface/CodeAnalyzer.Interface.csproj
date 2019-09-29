@@ -46,6 +46,7 @@
     <Compile Include="IParser.cs" />
     <Compile Include="IProcessingModule.cs" />
     <Compile Include="IProcessingResult.cs" />
+    <Compile Include="IReportRenderer.cs" />
     <Compile Include="ISimilarBlock.cs" />
     <Compile Include="ISource.cs" />
     <Compile Include="IToken.cs" />

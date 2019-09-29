@@ -24,15 +24,18 @@ namespace SimpleHeuristics
         public IEnumerable<IFileSource> LinkedFiles { get; set; }
         public string Report { get; set; }
 
-        public DatabaseProcessingResult(IFileSource fileSource, string report)
+        public IProcessingModule Module { get; }
+
+        public DatabaseProcessingResult(IFileSource fileSource, string report, IProcessingModule module)
         {
             File = fileSource;
             Report = report;
             LinkedFiles = new List<IFileSource>() { fileSource };
+            Module = module;
         }
     }
 
-    public class DatabaseHeuristicsModule : IProcessingModule
+    public class DatabaseHeuristicsModule : IProcessingModule, IReportRenderer
     {
         private int _totalSteps = 0;
         private int _localSteps = 0;
@@ -128,7 +131,7 @@ namespace SimpleHeuristics
                     foreach (var msg in pair.Value) sb.AppendLine($" - {msg}");
                     sb.AppendLine();
                 }
-                results.Add(new DatabaseProcessingResult(fileSource, sb.ToString()));
+                results.Add(new DatabaseProcessingResult(fileSource, sb.ToString(), this));
             }
 
             OnProgress?.Invoke(BuildProgress(_localSteps, "Поиск пространств имен провайдеров БД завершен"));
@@ -201,7 +204,7 @@ namespace SimpleHeuristics
                     foreach (var msg in pair.Value) sb.AppendLine($" - {msg}");
                     sb.AppendLine();
                 }
-                results.Add(new DatabaseProcessingResult(fileSource, sb.ToString()));
+                results.Add(new DatabaseProcessingResult(fileSource, sb.ToString(), this));
             }
         }
 
@@ -255,6 +258,16 @@ namespace SimpleHeuristics
         public int? GetMaxMainProgressValue()
         {
             return _totalSteps <= 0 ? (int?)null : _totalSteps;
+        }
+
+        public string ToHtml(IProcessingResult result)
+        {
+            return $"<pre>{result.Report}</pre>";
+        }
+
+        public IReportRenderer GetReportRenderer()
+        {
+            return this;
         }
 
         public event Action<ProcessingModuleEventData> OnProgress;

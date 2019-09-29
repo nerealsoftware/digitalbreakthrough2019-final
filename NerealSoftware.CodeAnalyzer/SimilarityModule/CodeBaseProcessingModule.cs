@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using CodeAnalyzer.Interface;
@@ -8,7 +9,7 @@ using SimilarityModule.MinHash;
 
 namespace SimilarityModule
 {
-    public class CodeBaseProcessingModule : IProcessingModule
+    public class CodeBaseProcessingModule : IProcessingModule, IReportRenderer
     {
         private readonly MinHashAlgorithm _algorithm;
         private readonly IParser _parser;
@@ -87,7 +88,7 @@ namespace SimilarityModule
                     }
                 }
 
-                results.Add(new Result(fileData.File, linkedFiles, report.ToString()));
+                results.Add(new Result(fileData.File, linkedFiles, report.ToString(), this));
             }
 
             return new ModuleResults(results);
@@ -115,6 +116,49 @@ namespace SimilarityModule
             }
         }
 
+        public string ToHtml(IProcessingResult result)
+        {
+            var sb = new StringBuilder();
+            using (var rdr = new StringReader(result.Report))
+            {
+                int mode = 0;
+                var line = rdr.ReadLine();
+                while (line != null)
+                {
+                    if (mode == 0)
+                    {
+                        sb.AppendLine($"<hr>");
+                        sb.AppendLine($"<br/><b style='font-family:monospace;width:100%;'>{line}</b><br/>");
+                        sb.AppendLine($"<table border=0 style='font-family:monospace;width:100%;'>");
+                        mode = 1;
+                    }
+                    else if (mode == 1)
+                    {
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            sb.AppendLine($"</table>");
+                            mode = 0;
+                        }
+                        else
+                        {
+                            var isRed = line.StartsWith(" ");
+                            var style = isRed ? "background-color: #FFC0C0;" : "";
+                            sb.AppendLine($"<tr><td style='{style}'>");
+                            sb.AppendLine($"{line}");
+                            sb.AppendLine($"</td></tr>");
+                        }
+                    }
+                    line = rdr.ReadLine();
+                }
+            }
+            return $"<pre>{sb.ToString()}</pre>";
+        }
+
+        public IReportRenderer GetReportRenderer()
+        {
+            return this;
+        }
+
         private class ModuleResults : ICommonResults
         {
             public ModuleResults(IEnumerable<IProcessingResult> results)
@@ -125,18 +169,21 @@ namespace SimilarityModule
             public IEnumerable<IProcessingResult> Results { get; }
         }
 
-        private class Result : IProcessingResult
+        public class Result : IProcessingResult
         {
-            public Result(IFileSource file, IEnumerable<IFileSource> linkedFiles, string report)
+            public Result(IFileSource file, IEnumerable<IFileSource> linkedFiles, string report, IProcessingModule module)
             {
                 File = file;
                 LinkedFiles = linkedFiles;
                 Report = report;
+                Module = module;
             }
 
             public IFileSource File { get; }
             public IEnumerable<IFileSource> LinkedFiles { get; }
             public string Report { get; }
+
+            public IProcessingModule Module { get; }
         }
     }
 

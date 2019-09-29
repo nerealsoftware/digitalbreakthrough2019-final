@@ -103,30 +103,16 @@ namespace WpfApp
 
             var progressModule = ModuleFactory.CreateContainer(modules);
             progressModule.OnProgress += ProgressModuleDisplayHandler;
-            var fileSourceList = new FileSystemSource(parameters.Path).GetFiles();
+            var fileSourceList = new FileSystemSource(parameters.Path).GetFiles().ToList();
             var results = progressModule.Execute(fileSourceList);
 
-            ShowReport(results);
-
-            /*var i = 0;
-            while (i < 10)
-            {
-                Thread.Sleep(100);
-                i++;
-                SetProgressBarValue(ProgressBarCode.File, i);
-                SetProgressBarValue(ProgressBarCode.All, i);
-                AddTextBoxMessage($"Тест {i}.");
-            }
-            this.Dispatcher.Invoke(() => this.Hide(), DispatcherPriority.Background);
-            ResultWindow resultWindow = new ResultWindow();
-            resultWindow.Dispatcher.Invoke(()=> resultWindow.ShowDialog(), DispatcherPriority.Normal);
-            this.Dispatcher.Invoke(() => this.Close(), DispatcherPriority.Background);*/
+            ShowReport(results, fileSourceList);
         }
 
-        private void ShowReport(CodeAnalyzer.Interface.ICommonResults results)
+        private void ShowReport(CodeAnalyzer.Interface.ICommonResults results, List<IFileSource> fileSourceList)
         {
             this.Dispatcher.Invoke(() => this.Hide(), DispatcherPriority.Background);
-            ResultWindow resultWindow = new ResultWindow(results);
+            ResultWindow resultWindow = new ResultWindow(results, fileSourceList);
             resultWindow.Dispatcher.Invoke(() => resultWindow.ShowDialog(), DispatcherPriority.Normal);
             this.Dispatcher.Invoke(() => this.Close(), DispatcherPriority.Background);
         }

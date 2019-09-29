@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using CodeAnalyzer.Interface;
 
 namespace CodeAnalyzer.Modules
@@ -55,6 +56,11 @@ namespace CodeAnalyzer.Modules
                 e.MaxSecondProgress, e.Module));
         }
 
+        public IReportRenderer GetReportRenderer()
+        {
+            throw new NotImplementedException();
+        }
+
         private class GroupedResults : ICommonResults
         {
             public GroupedResults(IEnumerable<IProcessingResult> results)
@@ -70,13 +76,28 @@ namespace CodeAnalyzer.Modules
             public GroupedResult(IGrouping<IFileSource, IProcessingResult> g)
             {
                 File = g.Key;
+                //Module = module;
                 LinkedFiles = g.Where(r => r.LinkedFiles != null).SelectMany(r => r.LinkedFiles).Distinct().ToList();
-                Report = string.Join("\n\n", g.Select(r => r.Report).Where(r => false == string.IsNullOrWhiteSpace(r)));
+                var sb = new StringBuilder();
+                foreach (var report in g)
+                {
+                    if (string.IsNullOrWhiteSpace(report.Report)) continue;
+                    sb.Append(BuildHmtl(report));
+                }
+                Report = sb.ToString();
+                //Report = string.Join("\n\n", g.Select(r => r.Report).Where(r => false == string.IsNullOrWhiteSpace(r)));
+            }
+
+            private string BuildHmtl(IProcessingResult report)
+            {
+                return report.Module.GetReportRenderer().ToHtml(report);
             }
 
             public IFileSource File { get; }
             public IEnumerable<IFileSource> LinkedFiles { get; }
             public string Report { get; }
+
+            public IProcessingModule Module { get; }
         }
     }
 }
