@@ -93,7 +93,7 @@ namespace WpfApp
 
         public void AddTextBoxMessage(string message)
         {
-            ProgressText.Dispatcher.Invoke(() => { ProgressText.Text += $"{message}\r\n"; });
+            ProgressText.Dispatcher.Invoke(() => { ProgressText.Text += $"\r\n{message}"; });
         }
 
         public void ExecuteThread(string path, string reestrPath)

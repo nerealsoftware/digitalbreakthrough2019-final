@@ -37,6 +37,8 @@ namespace SimpleHeuristics
         private int _localSteps = 0;
         private int _totalCurrent = 0;
 
+        public string GetName() => "Поиск подключений к базам данных";
+
         public ICommonResults Execute(IEnumerable<IFileSource> fileSources)
         {
             var list = fileSources.ToList();

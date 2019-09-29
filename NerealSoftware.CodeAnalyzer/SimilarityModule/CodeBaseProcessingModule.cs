@@ -22,6 +22,8 @@ namespace SimilarityModule
             _algorithm = algorithm;
         }
 
+        public string GetName() => "Сопоставление с кодовой базой";
+
         public ICommonResults Execute(IEnumerable<IFileSource> fileSources)
         {
             var baseFiles = _source.GetFiles().Select(f => new FileData(f)).ToList();

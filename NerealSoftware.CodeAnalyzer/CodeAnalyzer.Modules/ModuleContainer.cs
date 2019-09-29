@@ -7,15 +7,19 @@ namespace CodeAnalyzer.Modules
 {
     public class ModuleContainer : IProcessingModule
     {
-        private readonly int _maxMainProgressValue;
         private readonly List<IProcessingModule> _modules;
+        private readonly int _maxMainProgressValue;
+        private string _name;
         private int _currentMainProgressValue;
 
         public ModuleContainer(IEnumerable<IProcessingModule> modules)
         {
             _modules = modules.ToList();
             _maxMainProgressValue = _modules.Select(m => m.GetMaxMainProgressValue() ?? 0).Sum();
+            _name = "";
         }
+
+        public string GetName() => _name;
 
         public ICommonResults Execute(IEnumerable<IFileSource> fileSources)
         {
@@ -24,6 +28,9 @@ namespace CodeAnalyzer.Modules
             var results = new List<IProcessingResult>();
             foreach (var module in _modules)
             {
+                _name = module.GetName();
+                OnProgress?.Invoke(new ProcessingModuleEventData(null, $"Работа модуля '{_name}'",
+                    _currentMainProgressValue, _maxMainProgressValue, 0, 1, this));
                 module.OnProgress += ModuleOnProgress;
                 var result = module.Execute(files);
                 module.OnProgress -= ModuleOnProgress;
