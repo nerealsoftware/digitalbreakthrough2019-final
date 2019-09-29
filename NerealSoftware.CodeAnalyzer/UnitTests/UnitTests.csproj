@@ -106,6 +106,10 @@
       <Project>{B150B8AC-09C9-430C-8295-3476304E36B5}</Project>
       <Name>CodeAnalyzer.Interface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeAnalyzer.Modules\CodeAnalyzer.Modules.csproj">
+      <Project>{A9A8CEC0-7EEC-41C5-AD0D-0A76DB79395C}</Project>
+      <Name>CodeAnalyzer.Modules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeAnalyzer.Sources\CodeAnalyzer.Sources.csproj">
       <Project>{CD431766-9DE0-40C4-9FC7-0653C54446E0}</Project>
       <Name>CodeAnalyzer.Sources</Name>

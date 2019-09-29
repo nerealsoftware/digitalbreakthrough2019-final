@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CodeAnalyzer.Interface;
+using CodeAnalyzer.Modules;
 using CodeAnalyzer.Sources;
 using CodeParser;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,7 +21,7 @@ namespace UnitTests
             var baseSource = new FileSystemSource(basePath);
             var files = baseSource.GetFiles();
 
-            var module = new DatabaseHeuristicsModule();
+            var module = CreateDatabaseHeuristicsModule();
             ICommonResults results = module.Execute(files);
 
             Assert.IsNotNull(results);
@@ -33,19 +34,41 @@ namespace UnitTests
         [TestMethod]
         public void CompareFiles()
         {
-            var basePath = @"C:\codebase";
-            var baseSource = new FileSystemSource(basePath);
-            var parser = new CsParser();
-            var algorithm = new MinHashAlgorithm(20, 4, 4, 10, 5);
-            var module = new CodeBaseProcessingModule(baseSource, parser, algorithm);
-
-            //var path = @"C:\Projects\digitalbreakthrough2019-final\NerealSoftware.CodeAnalyzer\UnitTests\Files";
+            var module = CreateCodeBaseModule();
             var path = TestHelper.GetBasePath("Files");
+            Execute(module, path);
+        }
+
+        [TestMethod]
+        public void Container()
+        {
+            var module = new ModuleContainer(CreateDatabaseHeuristicsModule(), CreateCodeBaseModule());
+            var path = TestHelper.GetBasePath("Files");
+            Execute(module, path);
+        }
+
+        private static void Execute(IProcessingModule module, string path)
+        {
             var source = new FileSystemSource(path);
             var results = module.Execute(source.GetFiles());
             foreach (var result in results.Results)
                 if (false == string.IsNullOrWhiteSpace(result.Report))
                     Console.WriteLine(result.Report);
+        }
+
+        private static DatabaseHeuristicsModule CreateDatabaseHeuristicsModule()
+        {
+            return new DatabaseHeuristicsModule();
+        }
+
+        private static IProcessingModule CreateCodeBaseModule()
+        {
+            var basePath = @"C:\codebase";
+            var baseSource = new FileSystemSource(basePath);
+            var parser = new CsParser();
+            var algorithm = new MinHashAlgorithm(20, 4, 4, 10, 5);
+            var module = new CodeBaseProcessingModule(baseSource, parser, algorithm);
+            return module;
         }
     }
 }
