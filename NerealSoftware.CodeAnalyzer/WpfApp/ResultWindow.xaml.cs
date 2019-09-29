@@ -70,56 +70,57 @@ namespace WpfApp
 
         private string GenerateTotal(CodeAnalyzer.Interface.ICommonResults results, List<IFileSource> _fileSourceList)
         {
+            var recommendations = new List<string>();
             var sb = new StringBuilder();
-            sb.AppendLine($"<html><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><body><pre>");
-            var totalFileCount = _fileSourceList.Count();
+            sb.AppendLine($"<html><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><body>");
+            var totalFileCount = _fileSourceList.Count;
             var fileDubleCount = results.Results.Count(x => x.Report?.Contains("~=") ?? false);
-            var filePercent = (fileDubleCount * 100) / totalFileCount;
-            //var fileResume = "Отсутствует";
-            //if (filePercent > 80) fileResume = "Большинство файлов содержат совпадения.";
-            //else if (filePercent > 50) fileResume = "Больше половины файлов содержит совпадения.";
-            //else if (filePercent > 30) fileResume = "Около половины файлов содержит совпадения.";
-            //else if (filePercent > 10) fileResume = "Значительная часть файлов содержит совпадения.";
-            //else if (filePercent > 0) fileResume = "Небольшая часть файлов содержит совпадения.";
+            var filePercent = fileDubleCount * 100 / totalFileCount;
             var fileResumeIndex = 0;
             if (filePercent > 80) fileResumeIndex = 5;
             else if (filePercent > 50) fileResumeIndex = 4;
             else if (filePercent > 30) fileResumeIndex = 3;
             else if (filePercent > 10) fileResumeIndex = 2;
             else if (filePercent > 0) fileResumeIndex = 1;
-            //foreach (var result in results.Results)
-            //{ 
+            if (filePercent > 75)
+            {
+                recommendations.Add("Слишком большая доля заимствованного кода, вероятно уже есть существующий аналог.");
+            }
 
-            //}
             var fileResume = fileResumeText[fileResumeIndex];
 
-            sb.AppendLine($"Общее количество файлов:{totalFileCount}");
-            sb.AppendLine($"Количество файлов с совпадениями:{fileDubleCount}");
-            sb.AppendLine($"Процент файлов с совпадениями с базой кода:{filePercent}%");
-            sb.AppendLine($"Вывод:{fileResume}");
+            sb.AppendLine("<h2>Отчёт по анализу исходного кода</h2>");
+            sb.AppendLine("<table border=0 padding=4>");
+            sb.AppendLine($"<tr><td>Общее количество проверенных файлов</td><td>{totalFileCount}</td></tr>");
+            sb.AppendLine("<tr><th colspan=2>Проверка дублирования</th></tr>");
+            sb.AppendLine($"<tr><td>Количество файлов с совпадениями</td><td>{fileDubleCount}</td></tr>");
+            sb.AppendLine($"<tr><td>Процент файлов с совпадениями с базой кода</td><td>{filePercent}%</td></tr>");
+            sb.AppendLine($"<tr><td>Вывод</td><td>{fileResume}</td></tr>");
             
             var fileMsSqlCount = results.Results.Count(x => x.Report?.Contains("MSSQL") ?? false);
             var fileOracleCount = results.Results.Count(x => x.Report?.Contains("Oracle") ?? false);
             var fileDbCount = results.Results.Count(x => (x.Report?.Contains("Oracle") ?? false)||(x.Report?.Contains("MSSQL") ?? false));
             
-            var dbPercent = (fileDbCount * 100) / totalFileCount;
-            //var dbResume = "Отсутствует";
-            //if (dbPercent > 30) fileResume = "Большинство файлов работают с БД.";
-            //else if (dbPercent > 15) fileResume = "Много файлов работает с БД.";
-            //else if (dbPercent > 0) fileResume = "Есть файлы, работающие с БД.";
-
+            var dbPercent = fileDbCount * 100 / totalFileCount;
             var dbResumeIndex = 0;
             if (dbPercent > 30) dbResumeIndex = 3;
             else if (dbPercent > 15) dbResumeIndex = 2;
             else if (dbPercent > 0) dbResumeIndex = 1;
 
+            if (fileDbCount > 0)
+            {
+                recommendations.Add("В ПО используются иностранные БД, лицензирование и обслуживание которых может стоить дорого.");
+            }
+
             var dbResume = dbResumeText[dbResumeIndex];
 
-            sb.AppendLine($"Количество файлов работающих с БД:{fileDbCount}");
-            sb.AppendLine($"Из них работает с MSSQL:{fileMsSqlCount}");
-            sb.AppendLine($"Из них работает с Oracle:{fileOracleCount}");
-            sb.AppendLine($"Процент файлов работающих с БД:{dbPercent}%");
-            sb.AppendLine($"Вывод:{dbResume}");
+            sb.AppendLine("<tr><th colspan=2>Проверка использования БД</th></tr>");
+            sb.AppendLine($"<tr><td>Количество файлов работающих с БД</td><td>{fileDbCount}</td></tr>");
+            sb.AppendLine($"<tr><td>Из них работает с MSSQL</td><td>{fileMsSqlCount}</td></tr>");
+            sb.AppendLine($"<tr><td>Из них работает с Oracle</td><td>{fileOracleCount}</td></tr>");
+            sb.AppendLine($"<tr><td>Процент файлов работающих с БД</td><td>{dbPercent}%</td></tr>");
+            sb.AppendLine($"<tr><td>Вывод</td><td>{dbResume}</td></tr>");
+            sb.AppendLine("</table>");
 
             var totalIndex = fileResumeIndex + dbResumeIndex;
             var totalResume = "Отказать, продавца расстрелять";
@@ -127,9 +128,18 @@ namespace WpfApp
             else if (totalIndex <=5) totalResume = "Ну, если денег не жалко, то можно";
             else if (totalIndex <=7) totalResume = "Можно, за откат в 50%";
 
-            sb.AppendLine($"Общий вывод: {totalResume}");
+            sb.AppendLine($"<p><strong>Общий вывод:</strong> {totalResume}</p>");
 
-            sb.AppendLine("</pre></body></html>");
+            if (recommendations.Count > 0)
+            {
+                sb.AppendLine("<h3>Рекомендации</h3>");
+                foreach (var s in recommendations)
+                {
+                    sb.AppendLine($"<p>{s}</p>");
+                }
+            }
+
+            sb.AppendLine("</body></html>");
 
             return sb.ToString();
         }

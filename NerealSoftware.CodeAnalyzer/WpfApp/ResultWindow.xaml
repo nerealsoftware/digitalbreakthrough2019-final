@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Результаты анализа" Height="450" Width="800" Icon="logo.ico" WindowStartupLocation="CenterScreen">
+        Title="Результаты анализа" Height="600" Width="800" Icon="logo.ico" WindowStartupLocation="CenterScreen">
     <Grid Margin="10,10,2,2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="646*"/>
@@ -13,6 +13,11 @@
             <ColumnDefinition Width="13*"/>
         </Grid.ColumnDefinitions>
         <TabControl Margin="10" Grid.ColumnSpan="3">
+            <TabItem Header="Результаты">
+                <Grid Background="#FFE5E5E5">
+                    <WebBrowser Name="totalReportWB" xmlns:BrowserBehavior.Html="{Binding HtmlToDisplay}" Margin="10"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Cопоставления с существующим ПО">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
@@ -28,11 +33,6 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <WebBrowser Name="fileReportWB" Margin="209,10,10,10" xmlns:BrowserBehavior.Html="{Binding HtmlToDisplay}" Grid.ColumnSpan="3"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Результаты">
-                <Grid Background="#FFE5E5E5">
-                    <WebBrowser Name="totalReportWB" xmlns:BrowserBehavior.Html="{Binding HtmlToDisplay}" Margin="10"/>
                 </Grid>
             </TabItem>
         </TabControl>
