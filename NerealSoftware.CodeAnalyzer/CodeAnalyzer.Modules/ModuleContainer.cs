@@ -8,13 +8,13 @@ namespace CodeAnalyzer.Modules
     public class ModuleContainer : IProcessingModule
     {
         private readonly int _maxMainProgressValue;
-        private readonly IProcessingModule[] _modules;
+        private readonly List<IProcessingModule> _modules;
         private int _currentMainProgressValue;
 
-        public ModuleContainer(params IProcessingModule[] modules)
+        public ModuleContainer(IEnumerable<IProcessingModule> modules)
         {
-            _modules = modules;
-            _maxMainProgressValue = modules.Select(m => m.GetMaxMainProgressValue() ?? 0).Sum();
+            _modules = modules.ToList();
+            _maxMainProgressValue = _modules.Select(m => m.GetMaxMainProgressValue() ?? 0).Sum();
         }
 
         public ICommonResults Execute(IEnumerable<IFileSource> fileSources)

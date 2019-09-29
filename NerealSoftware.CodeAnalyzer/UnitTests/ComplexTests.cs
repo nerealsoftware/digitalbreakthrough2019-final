@@ -42,7 +42,7 @@ namespace UnitTests
         [TestMethod]
         public void Container()
         {
-            var module = new ModuleContainer(CreateDatabaseHeuristicsModule(), CreateCodeBaseModule());
+            var module = new ModuleContainer(new[] {CreateDatabaseHeuristicsModule(), CreateCodeBaseModule()});
             var path = TestHelper.GetBasePath("Files");
             Execute(module, path);
         }
@@ -56,7 +56,7 @@ namespace UnitTests
                     Console.WriteLine(result.Report);
         }
 
-        private static DatabaseHeuristicsModule CreateDatabaseHeuristicsModule()
+        private static IProcessingModule CreateDatabaseHeuristicsModule()
         {
             return new DatabaseHeuristicsModule();
         }

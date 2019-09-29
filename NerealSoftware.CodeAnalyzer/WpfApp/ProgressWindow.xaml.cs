@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using CodeAnalyzer.Interface;
 
 namespace WpfApp
 {
@@ -97,7 +98,12 @@ namespace WpfApp
 
         public void ExecuteThread(string path, string reestrPath)
         {
-            var progressModule = ModuleFactory.CreateCodeBaseProcessingModule(reestrPath);
+            // todo: строить список модулей исходя из включенных галочек
+            var modules = new List<IProcessingModule>();
+            modules.Add(ModuleFactory.CreateCodeBaseProcessingModule(reestrPath));
+            modules.Add(ModuleFactory.CreateDatabaseHeuristicsModule());
+
+            var progressModule = ModuleFactory.CreateContainer(modules);
             progressModule.OnProgress += ProgressModuleDisplayHandler;
             var fileSourceList = new FileSystemSource(path).GetFiles();
             var results = progressModule.Execute(fileSourceList);
