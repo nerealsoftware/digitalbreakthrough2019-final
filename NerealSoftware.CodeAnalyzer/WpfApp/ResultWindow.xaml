@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Результаты анализа" Height="450" Width="800" Icon="logo.ico">
+        Title="Результаты анализа" Height="450" Width="800" Icon="logo.ico" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TabControl Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="82*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Margin="10" Grid.ColumnSpan="2">
             <TabItem Header="Cопоставления с существующим ПО">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>

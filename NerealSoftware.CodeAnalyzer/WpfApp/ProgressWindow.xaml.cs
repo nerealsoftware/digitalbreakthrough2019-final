@@ -42,20 +42,18 @@ namespace WpfApp
                 SetProgressBarMaximum(ProgressBarCode.All, eventData.MaxMainProgress, eventData.CurrentMainProgress);
                 maxAllProgress = eventData.MaxMainProgress;
             }
-            else
-            {
-                SetProgressBarValue(ProgressBarCode.All, eventData.CurrentMainProgress);
-            }
+
+            SetProgressBarValue(ProgressBarCode.All, eventData.CurrentMainProgress);
+            
             if (eventData.MaxSecondProgress != maxSecondProgress)
             {
                 SetProgressBarMaximum(ProgressBarCode.File, eventData.MaxSecondProgress, eventData.CurrentSecondProgress);
                 maxSecondProgress = eventData.MaxSecondProgress;
             }
-            else
-            {
-                SetProgressBarValue(ProgressBarCode.File, eventData.CurrentSecondProgress);
-            }
-            if (!string.IsNullOrEmpty((eventData.Message)))
+
+            SetProgressBarValue(ProgressBarCode.File, eventData.CurrentSecondProgress);
+
+            if (!string.IsNullOrEmpty(eventData.Message))
             {
                 AddTextBoxMessage(eventData.Message);
             }

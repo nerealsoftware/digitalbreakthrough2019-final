@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Ход выполнения анализа" Height="377" Width="541">
+        Title="Ход выполнения анализа" Height="377" Width="541" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <ProgressBar Name="AllProgressBar" Height="25" Margin="10,42,10,0" VerticalAlignment="Top"/>
         <ProgressBar Name="FileProgressBar" Height="25" Margin="10,12,10,0" VerticalAlignment="Top"/>
