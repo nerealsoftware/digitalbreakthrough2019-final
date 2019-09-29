@@ -8,6 +8,8 @@ namespace SimilarityModule.Tests
     [TestClass]
     public class MinHashAlgorithmTests
     {
+		private static string _cs = "Server=.\SQLExpress;AttachDbFilename=C:\MyFolder\MyDataFile.mdf;Database=dbname;Trusted_Connection=Yes;";
+		
         [TestMethod]
         public void SimpleTest()
         {
