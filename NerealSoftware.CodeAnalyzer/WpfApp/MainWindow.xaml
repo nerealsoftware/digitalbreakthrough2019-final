@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
-        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="491" ResizeMode="NoResize">
+        Title="Приложение для анализа ПО на плагиат и зависимости" Height="335" Width="495.408" ResizeMode="CanMinimize" Icon="logo.ico" WindowStartupLocation="CenterScreen">
     <!--WindowStyle="ToolWindow" SnapsToDevicePixels="False" BorderThickness="0"-->
     <!--<Window.Effect>
         <DropShadowEffect BlurRadius="21" Direction="280" Opacity="0.615" RenderingBias="Performance" ShadowDepth="4" Color="Black"/>
