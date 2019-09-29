@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalyzer.Sources", "Cod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAnalyzer.Utils", "CodeAnalyzer.Utils\CodeAnalyzer.Utils.csproj", "{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleHeuristics", "SimpleHeuristics\SimpleHeuristics.csproj", "{12C33C50-F973-455A-9662-27F8B8EAE6CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EBB73DC-D7F2-4782-A9B8-A044D40610A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C33C50-F973-455A-9662-27F8B8EAE6CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C33C50-F973-455A-9662-27F8B8EAE6CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C33C50-F973-455A-9662-27F8B8EAE6CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C33C50-F973-455A-9662-27F8B8EAE6CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
