@@ -8,14 +8,12 @@ namespace CodeAnalyzer.Modules
     public class ModuleContainer : IProcessingModule
     {
         private readonly List<IProcessingModule> _modules;
-        private readonly int _maxMainProgressValue;
         private string _name;
         private int _currentMainProgressValue;
 
         public ModuleContainer(IEnumerable<IProcessingModule> modules)
         {
             _modules = modules.ToList();
-            _maxMainProgressValue = _modules.Select(m => m.GetMaxMainProgressValue() ?? 0).Sum();
             _name = "";
         }
 
@@ -30,7 +28,7 @@ namespace CodeAnalyzer.Modules
             {
                 _name = module.GetName();
                 OnProgress?.Invoke(new ProcessingModuleEventData(null, $"Работа модуля '{_name}'",
-                    _currentMainProgressValue, _maxMainProgressValue, 0, 1, this));
+                    _currentMainProgressValue, GetMaxMainProgressValue() ?? 0, 0, 1, this));
                 module.OnProgress += ModuleOnProgress;
                 var result = module.Execute(files);
                 module.OnProgress -= ModuleOnProgress;
@@ -45,7 +43,7 @@ namespace CodeAnalyzer.Modules
 
         public int? GetMaxMainProgressValue()
         {
-            return _maxMainProgressValue;
+            return _modules.Select(m => m.GetMaxMainProgressValue() ?? 0).Sum();
         }
 
         public event Action<ProcessingModuleEventData> OnProgress;
@@ -53,7 +51,7 @@ namespace CodeAnalyzer.Modules
         private void ModuleOnProgress(ProcessingModuleEventData e)
         {
             OnProgress?.Invoke(new ProcessingModuleEventData(e.CurrentFile, e.Message,
-                _currentMainProgressValue + e.CurrentMainProgress, _maxMainProgressValue, e.CurrentSecondProgress,
+                _currentMainProgressValue + e.CurrentMainProgress, GetMaxMainProgressValue() ?? 0, e.CurrentSecondProgress,
                 e.MaxSecondProgress, e.Module));
         }
 
