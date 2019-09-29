@@ -28,13 +28,6 @@ namespace WpfApp
         public MainWindow()
         {
             InitializeComponent();
-            Bitmap bmp = new Bitmap(WpfApp.Resource.logo1);  //sourceFile = openfiledialog.FileName;
-            using (var ms = new MemoryStream())
-            {
-                bmp.Save(ms, ImageFormat.Bmp);
-                ms.Position = 0;
-                this.Icon = BitmapFrame.Create(ms);
-            }
             ReestrCheck(null, null);
         }
 
