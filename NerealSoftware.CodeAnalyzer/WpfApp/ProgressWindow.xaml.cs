@@ -25,12 +25,12 @@ namespace WpfApp
     {
         private int maxAllProgress = 100;
         private int maxSecondProgress = 100;
-        public ProgressWindow(string path, string reestrPath)
+        public ProgressWindow(StartingModulesParameters parameters/*string Path, string ReestrPath*/)
         {
             InitializeComponent();
             SetProgressBarMaximum(ProgressBarCode.File, maxSecondProgress, 0);
             SetProgressBarMaximum(ProgressBarCode.All, maxAllProgress, 0);
-            var thread = new Thread(() => ExecuteThread(path, reestrPath));
+            var thread = new Thread(() => ExecuteThread(parameters));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
         }
@@ -94,16 +94,16 @@ namespace WpfApp
             ProgressText.Dispatcher.Invoke(() => { ProgressText.Text += $"\r\n{message}"; });
         }
 
-        public void ExecuteThread(string path, string reestrPath)
+        public void ExecuteThread(StartingModulesParameters parameters)
         {
             // todo: строить список модулей исходя из включенных галочек
             var modules = new List<IProcessingModule>();
-            modules.Add(ModuleFactory.CreateCodeBaseProcessingModule(reestrPath));
-            modules.Add(ModuleFactory.CreateDatabaseHeuristicsModule());
+            modules.Add(ModuleFactory.CreateCodeBaseProcessingModule(parameters.ReestrPath));
+            if (parameters.IsHeuristicEnabled) modules.Add(ModuleFactory.CreateDatabaseHeuristicsModule());
 
             var progressModule = ModuleFactory.CreateContainer(modules);
             progressModule.OnProgress += ProgressModuleDisplayHandler;
-            var fileSourceList = new FileSystemSource(path).GetFiles();
+            var fileSourceList = new FileSystemSource(parameters.Path).GetFiles();
             var results = progressModule.Execute(fileSourceList);
 
             ShowReport(results);

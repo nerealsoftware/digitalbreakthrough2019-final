@@ -20,7 +20,7 @@
         <Label Content="Использовать при анализе следующие модули:" Margin="11,87,17,0" VerticalAlignment="Top" FontFamily="Courier New" FontSize="14" FontWeight="Bold"/>
         <CheckBox Content="Анализ информационной безопасности" HorizontalAlignment="Left" Margin="24,201,0,0" VerticalAlignment="Top" IsEnabled="False" Width="281" FontFamily="Courier New" FontSize="14"/>
         <CheckBox Content="Библиотеки GitHub" HorizontalAlignment="Left" Margin="24,181,0,0" VerticalAlignment="Top" IsEnabled="False" FontFamily="Courier New" FontSize="14" Width="190"/>
-        <CheckBox Content="Модуль проверки зависимостей от Иностранного ПО" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="14"/>
+        <CheckBox x:Name="CheckBoxHeuristic" Content="Модуль проверки зависимостей от Иностранного ПО" HorizontalAlignment="Left" Margin="24,161,0,0" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="14"/>
         <CheckBox Name="CheckBoxReestr" Content="Реестр существующего ПО" HorizontalAlignment="Left" Margin="24,113,0,0" VerticalAlignment="Top" Click="ReestrCheck" Width="222" FontFamily="Courier New" FontSize="14" />
         <Button Name="BtnStart" Content="Выполнить анализ ПО" HorizontalAlignment="Left" Margin="312,246,0,0" VerticalAlignment="Top" Width="152"
                 Click="Button_Click_1" Height="26"

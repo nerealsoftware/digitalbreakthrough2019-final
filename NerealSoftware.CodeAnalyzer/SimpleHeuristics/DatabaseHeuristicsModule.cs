@@ -28,6 +28,7 @@ namespace SimpleHeuristics
         {
             File = fileSource;
             Report = report;
+            LinkedFiles = new List<IFileSource>() { fileSource };
         }
     }
 
@@ -94,20 +95,21 @@ namespace SimpleHeuristics
                         var line = oline.ToLower();
                         if (line.Contains("using "))
                         {
+                            var pline = oline.Trim();
                             if (line.Contains("oracle.dataaccess.") && !spaces.ContainsKey("Oracle"))
                             {
-                                OnProgress?.Invoke(BuildProgress(localStep, "Найдено обращение к провайдеру БД Oracle: {oline}"));
+                                OnProgress?.Invoke(BuildProgress(localStep, $"Найдено обращение к провайдеру БД Oracle: {pline}"));
                                 //if (!spaces.ContainsKey("Oracle")) spaces["Oracle"] = new List<string>();
                                 spaces["Oracle"] = new List<string>();
-                                spaces["Oracle"].Add($"строка {lineNumber}: {oline}");
+                                spaces["Oracle"].Add($"строка {lineNumber}: {pline}");
                             }
 
                             if (line.Contains("system.data.sqlclient") && !spaces.ContainsKey("MSSQL"))
                             {
-                                OnProgress?.Invoke(BuildProgress(localStep, "Найдено обращение к провайдеру БД MSSQL: {oline}"));
+                                OnProgress?.Invoke(BuildProgress(localStep, $"Найдено обращение к провайдеру БД MSSQL: {pline}"));
                                 //if (!spaces.ContainsKey("Oracle")) spaces["Oracle"] = new List<string>();
                                 spaces["MSSQL"] = new List<string>();
-                                spaces["MSSQL"].Add($"строка {lineNumber}: {oline}");
+                                spaces["MSSQL"].Add($"строка {lineNumber}: {pline}");
                             }
                         }
                         oline = reader.ReadLine();
@@ -168,18 +170,19 @@ namespace SimpleHeuristics
                         var line = oline?.ToLower();
                         if (CheckForConnectionString(line))
                         {
+                            var pline = oline.Trim();
                             OnProgress?.Invoke(BuildProgress(localStep, $"Найдена строка <{line}>"));
                             if (IsMsSqlConnectionString(line))
                             {
-                                OnProgress?.Invoke(BuildProgress(localStep, "Найдена строка MS SQL: {oline}"));
+                                OnProgress?.Invoke(BuildProgress(localStep, $"Найдена строка MS SQL: {pline}"));
                                 if (!connStrings.ContainsKey("MSSQL")) connStrings["MSSQL"] = new List<string>();
-                                connStrings["MSSQL"].Add($"строка {lineNumber}: {oline}");
+                                connStrings["MSSQL"].Add($"строка {lineNumber}: {pline}");
                             }
                             else if (IsOracleConnectionString(line))
                             {
-                                OnProgress?.Invoke(BuildProgress(localStep, "Найдена строка Oracle: {oline}"));
+                                OnProgress?.Invoke(BuildProgress(localStep, $"Найдена строка Oracle: {pline}"));
                                 if (!connStrings.ContainsKey("Oracle")) connStrings["Oracle"] = new List<string>();
-                                connStrings["Oracle"].Add($"строка {lineNumber}: {oline}");
+                                connStrings["Oracle"].Add($"строка {lineNumber}: {pline}");
                             }
                         }
                         oline = reader.ReadLine();

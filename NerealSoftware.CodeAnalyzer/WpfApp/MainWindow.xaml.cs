@@ -45,7 +45,15 @@ namespace WpfApp
                     MessageBox.Show("Не задана директория для файлов реестра ПО","Ошибка",MessageBoxButton.OK,MessageBoxImage.Error);
                     return;
                 }
-                ProgressWindow progressWindow = new ProgressWindow(Path.Text, ReestrPath.Text);
+
+                var parameters = new StartingModulesParameters()
+                {
+                    Path = Path.Text,
+                    ReestrPath = ReestrPath.Text,
+                    IsHeuristicEnabled = CheckBoxHeuristic?.IsChecked ?? false
+                };
+
+                ProgressWindow progressWindow = new ProgressWindow(parameters);
                 this.Hide();
                 progressWindow.ShowDialog();
                 this.Show();
